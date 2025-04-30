@@ -1,0 +1,23 @@
+[project]
+name = "tasks_generator"
+version = "0.1.0"
+description = "tasks-generator using crewAI"
+authors = [{ name = "Your Name", email = "you@example.com" }]
+requires-python = ">=3.10,<3.13"
+dependencies = [
+    "crewai[tools]>=0.117.1,<1.0.0"
+]
+
+[project.scripts]
+tasks_generator = "tasks_generator.main:run"
+run_crew = "tasks_generator.main:run"
+train = "tasks_generator.main:train"
+replay = "tasks_generator.main:replay"
+test = "tasks_generator.main:test"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.crewai]
+type = "crew"
