@@ -66,3 +66,15 @@ def test():
 
     except Exception as e:
         raise Exception(f"An error occurred while testing the crew: {e}")
+
+# Instancier et exécuter le crew
+output_file = r'src/tasks_generator/doc/TASKS.md'
+input_file = r'src/tasks_generator/doc/SPECIFICATION.md'
+inputs={
+        "input_file": input_file,
+        "output_file": output_file
+    }
+crew = TasksGenerator()
+result = crew.crew().kickoff(inputs=inputs)
+
+print(result)
