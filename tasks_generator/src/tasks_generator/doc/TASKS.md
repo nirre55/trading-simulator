@@ -1,6 +1,5 @@
 With the content from the specification gathered, I can now create the structured Markdown file for the tasks related to the crypto trading simulation application.
 
-```
 ### Phase 1: Initial Setup
 
 #### Task 1.1: Project Initialization
@@ -64,6 +63,4 @@ With the content from the specification gathered, I can now create the structure
 - [ ] Create user guide for application usage
 - [ ] Document all input parameters and their effects on simulations
 - [ ] Include troubleshooting section for common issues
-```
 
-This structured outline for the `/home/mehdi/Desktop/ai-projets/trading-simulator/tasks_generator/src/tasks_generator/doc/TASKS.md` file breaks down the entire project into phases, tasks, and individual checkable subtasks as per your requirements.
