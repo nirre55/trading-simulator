@@ -1,9 +1,11 @@
 # Structure Logicielle : Simulateur de Positions de Trading (Crypto)
 
 ## 1. Aperçu
+
 **Objectif** : Ce document décrit l’architecture logicielle et la structure du code de l’application **Simulateur de Positions de Trading (Crypto)**, une application web côté client développée avec **React**, **Vite**, **TypeScript**, et **TailwindCSS**. Étant donné l’absence de backend (pas d’API ou de persistance serveur), la structure se concentre sur l’organisation des composants React, la gestion des calculs, des validations, et de l’état côté client, ainsi que l’intégration des bibliothèques comme **react-toastify** et **react-i18next**.
 
 **Portée** :
+
 - Architecture modulaire pour les fonctionnalités de simulation de trading (Variante 1 : entrée manuelle, Variante 2 : calculée).
 - Organisation des fichiers pour maintenir lisibilité et évolutivité.
 - Gestion des calculs (trades, frais, ROI) et validations en TypeScript.
@@ -14,6 +16,7 @@
 ## 2. Architecture Générale
 
 ### 2.1. Vue d’Ensemble
+
 L’application est une **Single Page Application (SPA)** exécutée entièrement dans le navigateur. Elle suit une architecture **composant-based** avec React, utilisant des **hooks** pour la gestion d’état et des **utilitaires TypeScript** pour les calculs et validations. Les données (entrées utilisateur, résultats) sont gérées en mémoire et ne sont pas persistantes.
 
 - **Couches Principales** :
@@ -29,6 +32,7 @@ L’application est une **Single Page Application (SPA)** exécutée entièremen
   - **TailwindCSS** : Styling responsive (palette bleu/gris).
 
 ### 2.2. Principes d’Architecture
+
 - **Modularité** : Chaque composant ou utilitaire a une responsabilité unique (ex. : `InputForm.tsx` pour le formulaire, `calculations.ts` pour la logique métier).
 - **Typage Strict** : Utilisation de TypeScript pour des interfaces claires (ex. : `Trade`, `InputParameters`).
 - **Performance** : Mémoïsation (`React.memo`, `useMemo`) pour optimiser les calculs (≤ 50 trades).
@@ -40,9 +44,10 @@ L’application est une **Single Page Application (SPA)** exécutée entièremen
 ## 3. Structure des Fichiers
 
 ### 3.1. Arborescence
+
 La structure des fichiers est conçue pour séparer les préoccupations (UI, logique, types, tests) et faciliter la maintenance.
 
-```
+```bash
 src/
 ├── components/                # Composants React
 │   ├── InputForm.tsx          # Formulaire avec onglets (Variante 1/2)
@@ -54,8 +59,8 @@ src/
 ├── utils/                     # Modules utilitaires
 │   ├── calculations.ts        # Calculs (montant, prix sortie, frais)
 │   ├── validations.ts         # Validations des entrées
-│   ├── types.ts              # Interfaces TypeScript
-│   └── i18n.ts               # Configuration react-i18next
+│   ├── types.ts               # Interfaces TypeScript
+│   └── i18n.ts                # Configuration react-i18next
 ├── App.tsx                    # Composant principal (orchestration)
 ├── index.css                  # Styles TailwindCSS
 ├── main.tsx                   # Point d’entrée React
@@ -71,6 +76,7 @@ src/
 ```
 
 ### 3.2. Rôles des Répertoires
+
 - **components/** : Contient des composants React réutilisables, chacun avec une responsabilité spécifique (ex. : `TradeTable.tsx` pour afficher le tableau).
 - **utils/** : Modules TypeScript pour la logique métier, validations, et types. Séparés des composants pour faciliter les tests.
 - **tests/** : Tests unitaires avec Vitest, couvrant 90 % des calculs/validations.
@@ -82,6 +88,7 @@ src/
 ## 4. Détails des Composants
 
 ### 4.1. Composants Principaux
+
 1. **InputForm.tsx** :
    - **Rôle** : Affiche le formulaire avec onglets pour Variante 1 et Variante 2.
    - **Props** : Aucun (gère l’état interne via `useState`).
@@ -130,6 +137,7 @@ src/
    - **Accessibilité** : ARIA labels pour lecteurs d’écran.
 
 ### 4.2. Composant Racine
+
 - **App.tsx** :
   - **Rôle** : Orchestre les composants, gère l’état global.
   - **État** :
@@ -146,6 +154,7 @@ src/
 ## 5. Logique Métier (Utils)
 
 ### 5.1. calculations.ts
+
 - **Rôle** : Implémente les calculs pour les trades.
 - **Fonctions Principales** :
   - `calculateTrade(params: InputParameters, tradeIndex: number)` : Calcule un trade (montant, prix sortie, liquidation, frais, gain net).
@@ -156,6 +165,7 @@ src/
 - **Performance** : Utilise `useMemo` pour éviter recalculs inutiles.
 
 ### 5.2. validations.ts
+
 - **Rôle** : Valide les entrées utilisateur.
 - **Fonctions Principales** :
   - `validateCommonParams(params: InputParameters)` : Vérifie solde, levier, stop-loss, frais, durée.
@@ -166,6 +176,7 @@ src/
 - **Accessibilité** : Messages d’erreur traduits via react-i18next.
 
 ### 5.3. types.ts
+
 - **Rôle** : Définit les interfaces TypeScript.
 - **Interfaces Principales** :
   - `InputParameters` : Solde Total, Levier, Stop-Loss, etc.
@@ -174,6 +185,7 @@ src/
 - **Utilisation** : Typage strict pour composants et utilitaires.
 
 ### 5.4. i18n.ts
+
 - **Rôle** : Configure react-i18next pour le support bilingue.
 - **Fichiers** :
   - `fr.json` : Traductions français (ex. : `"errors.insufficientBalance": "Solde trop faible : minimum 100 $ requis."`).
@@ -183,6 +195,7 @@ src/
 ---
 
 ## 6. Gestion d’État
+
 - **Approche** : Hooks React (`useState`, `useEffect`) pour un état localisé.
 - **État Global (App.tsx)** :
   - `variant: 'manual' | 'calculated'` : Variante active.
@@ -197,6 +210,7 @@ src/
 ---
 
 ## 7. Tests
+
 - **Outil** : Vitest, intégré avec Vite.
 - **Couverture** : 90 % pour `calculations.ts`, `validations.ts`, et composants critiques (`InputForm.tsx`).
 - **Exemples de Tests** :
@@ -207,7 +221,9 @@ src/
 ---
 
 ## 8. Considérations Futures (Backend Potentiel)
+
 Bien que l’application soit actuellement client-side, une future intégration backend pourrait inclure :
+
 - **API REST** :
   - Endpoints : `/simulations` (POST pour sauvegarder, GET pour récupérer).
   - Données : Entrées utilisateur, résultats (JSON).
@@ -227,6 +243,7 @@ Bien que l’application soit actuellement client-side, une future intégration 
 ---
 
 ## 9. Hypothèses
+
 - Aucun backend n’est requis pour la version actuelle.
 - Les calculs sont suffisamment performants pour ≤ 50 trades sans serveur.
 - Les traductions sont statiques (fichiers JSON, pas d’API i18n).
@@ -235,6 +252,7 @@ Bien que l’application soit actuellement client-side, une future intégration 
 ---
 
 ## 10. Glossaire
+
 - **Composant** : Élément React réutilisable (ex. : `InputForm.tsx`).
 - **Hook** : Fonction React pour gérer état ou effets (ex. : `useState`).
 - **Toast** : Notification temporaire via react-toastify.

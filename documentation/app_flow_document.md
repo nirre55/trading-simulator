@@ -1,9 +1,11 @@
 # Flux de l’Application : Simulateur de Positions de Trading (Crypto)
 
 ## 1. Aperçu
+
 **Objectif** : Ce document décrit le flux utilisateur et les interactions principales de l’application web **Simulateur de Positions de Trading (Crypto)**, développée avec React, Vite, TypeScript, et TailwindCSS. Il détaille les étapes du parcours utilisateur, de la configuration des paramètres de trading à la visualisation des résultats, pour les deux variantes (entrée manuelle et calculée). Le flux inclut les validations, les alertes (via react-toastify), et les interactions avec l’interface (formulaire, tableau, carte résumé).
 
 **Portée** :
+
 - Application client-side, sans backend.
 - Supporte deux variantes : Variante 1 (points d’entrée manuels) et Variante 2 (points d’entrée calculés via pourcentages de baisse).
 - Interface bilingue (français/anglais), accessible, avec infobulles et toasts interactifs.
@@ -13,6 +15,7 @@
 ## 2. Parcours Utilisateur
 
 ### 2.1. Étape 1 : Accès à l’Application
+
 - **Action** : L’utilisateur accède à l’application via un navigateur (Chrome, Firefox, Safari, Edge) sur desktop ou mobile (min 320px).
 - **Interface** :
   - L’en-tête affiche le titre « Simulateur de Trading Crypto » (bleu foncé, texte blanc, fond gris).
@@ -23,6 +26,7 @@
   - La langue par défaut (français ou anglais) est définie selon les préférences du navigateur ou un sélecteur de langue (via react-i18next).
 
 ### 2.2. Étape 2 : Configuration des Paramètres
+
 - **Action** : L’utilisateur remplit le formulaire pour configurer les paramètres de simulation.
 - **Interface** :
   - **Section Formulaire** (gauche sur desktop, pleine largeur sur mobile) :
@@ -63,6 +67,7 @@
   - Le bouton « Simuler les Trades » s’active uniquement si toutes les validations passent.
 
 ### 2.3. Étape 3 : Simulation des Trades
+
 - **Action** : L’utilisateur clique sur « Simuler les Trades » pour lancer la simulation.
 - **Logique** :
   - **Variante 1** :
@@ -79,6 +84,7 @@
   - Les entrées utilisateur sont conservées après simulation pour permettre des ajustements.
 
 ### 2.4. Étape 4 : Visualisation des Résultats
+
 - **Action** : Les résultats s’affichent dans la section Résultats.
 - **Interface** :
   - **Section Résultats** (droite sur desktop, sous formulaire sur mobile) :
@@ -96,6 +102,7 @@
   - L’utilisateur peut revenir au formulaire pour ajuster les paramètres et relancer la simulation.
 
 ### 2.5. Étape 5 : Ajustements et Nouvelle Simulation
+
 - **Action** : L’utilisateur modifie les paramètres et relance la simulation.
 - **Flux** :
   - Les entrées précédentes sont conservées (ex. : Solde Total reste 1000 $).
@@ -110,6 +117,7 @@
 ## 3. Flux Spécifiques
 
 ### 3.1. Gestion des Erreurs
+
 - **Validation Échouée** :
   - Ex. : Prix Stop-Loss ≥ Prix d’Entrée.
   - Affiche erreur inline (ex. : « Prix Stop-Loss doit être < Prix d’Entrée »).
@@ -122,10 +130,12 @@
   - Résultats affichés jusqu’au dernier trade valide.
 
 ### 3.2. Infobulles
+
 - L’utilisateur clique sur une icône « ? » pour afficher une infobulle (ex. : « Taux de Financement : Frais toutes les 3h pour la durée spécifiée »).
 - Infobulle disparaît au clic suivant ou en cliquant ailleurs.
 
 ### 3.3. Accessibilité
+
 - Navigation clavier : tabulation pour parcourir champs, onglets, boutons.
 - Labels ARIA pour formulaires et tableau (ex. : `aria-label="Solde Total"`).
 - Toasts accessibles via lecteurs d’écran (ex. : NVDA).
@@ -133,7 +143,9 @@
 ---
 
 ## 4. Diagrammes de Flux (Description Textuelle)
+
 ### 4.1. Flux Global
+
 1. **Démarrer** : Accès à l’application, onglet Variante 1 sélectionné.
 2. **Configurer** : Saisir paramètres (communs + spécifiques à la variante).
 3. **Valider** :
@@ -144,12 +156,14 @@
 6. **Ajuster** : Modifier paramètres ou réinitialiser, retourner à Configurer.
 
 ### 4.2. Flux Variante 1
+
 - Saisir Nombre de Trades → Générer champs Prix d’Entrée.
 - Valider chaque Prix d’Entrée > Stop-Loss.
 - Calculer `montantParTrade = soldeTotal / nombreDeTrades`.
 - Simuler chaque trade avec récupération des pertes (si activée).
 
 ### 4.3. Flux Variante 2
+
 - Saisir Prix d’Entrée Initial et Pourcentages de Baisse.
 - Calculer prix de liquidation itérativement jusqu’à ≤ Stop-Loss.
 - Déterminer `nombreDeTrades`, puis `montantParTrade`.
@@ -158,6 +172,7 @@
 ---
 
 ## 5. Hypothèses
+
 - L’utilisateur comprend les concepts de trading (levier, stop-loss, frais).
 - Les toasts ne s’empilent pas excessivement (limite gérée par react-toastify).
 - La langue est sélectionnée au chargement ou via un sélecteur (non détaillé dans le cahier des charges).
@@ -165,6 +180,7 @@
 ---
 
 ## 6. Glossaire
+
 - **Toast** : Notification temporaire (via react-toastify) pour erreurs ou alertes.
 - **Infobulle** : Texte explicatif affiché au clic sur icône « ? ».
 - **Variante 1** : Simulation avec prix d’entrée saisis manuellement.
