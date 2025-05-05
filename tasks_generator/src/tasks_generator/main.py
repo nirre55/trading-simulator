@@ -5,6 +5,7 @@ import warnings
 from datetime import datetime
 
 from tasks_generator.crew import TasksGenerator
+from tasks_generator.crew_ui import UiGenerator
 
 warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 
@@ -67,14 +68,32 @@ def test():
     except Exception as e:
         raise Exception(f"An error occurred while testing the crew: {e}")
 
-# Instancier et exécuter le crew
-output_file = r'src/tasks_generator/doc/TASKS.md'
-input_file = r'src/tasks_generator/doc/SPECIFICATION.md'
-inputs={
+# Instancier et exécuter le crew pour générer les tâches
+def task_generator_run():
+    output_file = r'src/tasks_generator/doc/TASKS.md'
+    input_file = r'src/tasks_generator/doc/SPECIFICATION.md'
+    inputs={
         "input_file": input_file,
         "output_file": output_file
     }
-crew = TasksGenerator()
-result = crew.crew().kickoff(inputs=inputs)
+    crew = TasksGenerator()
+    result = crew.crew_tasks().kickoff(inputs=inputs)
 
-print(result)
+    print(result)
+
+
+# Instancier et exécuter le crew pour générer details ui 
+def ui_generator_run():
+    output_file = r'src/tasks_generator/doc/UI_UX.md'
+    input_file = r'src/tasks_generator/doc/SPECIFICATION.md'
+    inputs={
+        "input_file": input_file,
+        "output_file": output_file
+    }
+    crew_ui_ux = UiGenerator()
+    result = crew_ui_ux.crew_ui_ux().kickoff(inputs=inputs)
+
+    print(result)
+
+task_generator_run()
+#ui_generator_run()

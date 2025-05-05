@@ -1,6 +1,5 @@
 from crewai import Agent, Crew, Task
 from crewai.project import CrewBase, agent, crew, task
-from typing import List
 from crewai_tools import FileReadTool, FileWriterTool
 from dotenv import load_dotenv
 
@@ -13,7 +12,7 @@ load_dotenv()
 # https://docs.crewai.com/concepts/crews#example-crew-class-with-decorators
 
 @CrewBase
-class TasksGenerator():
+class UiGenerator():
     """Crew for generating project tasks"""
 
     # Créer l'outil de lecture de fichier
@@ -34,7 +33,7 @@ class TasksGenerator():
             config=self.tasks_config['task_structuring_specialist_task'],
             verbose=True,
         )
-
+    
     @agent
     def ui_ux_expert(self) -> Agent:
         return Agent(
@@ -47,15 +46,14 @@ class TasksGenerator():
     def interface_design_task(self) -> Task:
         return Task(
             config=self.tasks_config['interface_design_task'],
-            tools=[self.write_file_tool],
             verbose=True,
         )
 
     @crew
-    def crew_tasks(self) -> Crew:
+    def crew_ui_ux(self) -> Crew:
         return Crew(
-            agents=[self.task_structuring_specialist()],
-            tasks=[self.task_structuring_specialist_task()],
+            agents=[self.ui_ux_expert()],
+            tasks=[self.interface_design_task()],
             verbose=True
         )
 

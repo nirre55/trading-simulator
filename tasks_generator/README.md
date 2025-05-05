@@ -43,6 +43,11 @@ This example, unmodified, will run the create a `report.md` file with the output
 
 The tasks-generator Crew is composed of multiple AI agents, each with unique roles, goals, and tools. These agents collaborate on a series of tasks, defined in `config/tasks.yaml`, leveraging their collective skills to achieve complex objectives. The `config/agents.yaml` file outlines the capabilities and configurations of each agent in your crew.
 
+## Probleme rencontré 
+
+ - **Erreur** KeyError: 'task_structuring_specialist\n' - **Solution** : demande a copilot on mettant le fichier .yaml de corrigé le probleme et copiant l'erreur dans le chat
+ - **Erreur** Le fichier generer est enregistré ailleur - **Solution** : mettre tous les tools au niveau de l'agent ET validé le chemin dans le termina ou on ce trouve puis ajusté les input et output
+
 ## Support
 
 For support, questions, or feedback regarding the TasksGenerator Crew or crewAI.

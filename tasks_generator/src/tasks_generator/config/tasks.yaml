@@ -1,23 +1,19 @@
 task_structuring_specialist_task:
   description: >
-    From a file named {input_file} describing a web application (React + Vite + TypeScript + TailwindCSS) for simulating leveraged crypto trading strategies, generate a Markdown file named {output_file}. This document must:
-    - Structure the project into logical **phases** (e.g.: Initial Setup, UI Implementation, Trading Logic)
-    - Break down each phase into numbered subsections with descriptive titles (e.g.: "Task 1.1: Project Setup")
-    - List the tasks as checkboxes `[ ]`, with actionable, clear, and concise wording
-    - Ensure that each task is sufficiently atomic to be individually tracked
-
+    From a file named {input_file} describing a web application (React + Vite + TypeScript + TailwindCSS) for simulating leveraged crypto trading strategies, generate a Markdown file named {output_file}. This document must: - Structure the project into logical **phases** (e.g.: Initial Setup, UI Implementation, Trading Logic) - Break down each phase into numbered subsections with descriptive titles (e.g.: "Task 1.1: Project Setup") - List the tasks as checkboxes `[ ]`, with actionable, clear, and concise wording - Ensure that each task is sufficiently atomic to be individually tracked 
   expected_output: >
-    A `{output_file}` file structured as follows:
-    - Numbered **phases** (`Phase 1`, `Phase 2`, etc.) with a clear title
-    - **Subtasks** identified by a title such as `Task X.Y: Task Name`
-    - A **task list** per subtask, each preceded by a checkbox `[ ]`
-    - Format example:
+    A `{output_file}` file structured as follows: - Numbered **phases** (`Phase 1`, `Phase 2`, etc.) with a clear title - **Subtasks** identified by a title such as `Task X.Y: Task Name` - A **task list** per subtask, each preceded by a checkbox `[ ]` - Format example:
         ### Phase 1: Initial Setup
 
         #### Task 1.1: Project Initialization
         - [ ] Create project repository
         - [ ] Set up Vite + React project with TypeScript
         - [ ] Configure TailwindCSS
+  agent: task_structuring_specialist
 
-  agent: >
-    task_structuring_specialist
+interface_design_task:
+  description: >
+    Generate a comprehensive textual description of the user interface for the Trading Position Simulator (Crypto) web application based on {input_file}. The description should be divided into clear sections, detailing layout, components, styling using TailwindCSS classes, and responsiveness for both desktop and mobile views.  
+  expected_output: >
+    A detailed, sectioned textual description of the interface, including specific TailwindCSS class references, design choices (e.g., "background color #1a202c for dark mode", "green button #48bb78 with hover effect"), and explanations on how the interface adapts to different screen sizes and saves everything in {output_file}.
+  agent: ui_ux_expert
