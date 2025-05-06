@@ -31,8 +31,11 @@
    - Ajouter `vitest.config.ts` et scripts (`npm run test`).
 5. Créer la structure des fichiers :
    - Répertoires : `src/components/`, `src/utils/`, `src/tests/`, `src/i18n/` (voir `backend_structure_document.md`).
+
 **Dépendances** : Aucune.
+
 **Priorité** : Élevée (base du projet).
+
 **Critères d’Acceptation** :
 
 - Projet lancé avec `npm run dev` (localhost:5173).
