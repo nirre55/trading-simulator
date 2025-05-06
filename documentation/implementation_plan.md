@@ -61,8 +61,11 @@
 4. Écrire tests unitaires :
    - `src/tests/calculations.test.ts` : Tester calculs (ex. : gain net).
    - `src/tests/validations.test.ts` : Tester cas limites (ex. : solde < 100 $).
+
 **Dépendances** : Phase 1 (Vitest configuré).
+
 **Priorité** : Élevée (logique métier critique).
+
 **Critères d’Acceptation** :
 
 - Interfaces TypeScript sans erreurs.
@@ -94,8 +97,11 @@
    - Exemple : « Levier : Multiplie la taille… ».
 6. Écrire tests :
    - `src/tests/InputForm.test.ts` : Tester saisie, erreurs, toasts.
+
 **Dépendances** : Phase 2 (types, validations).
+
 **Priorité** : Élevée (interface utilisateur principale).
+
 **Critères d’Acceptation** :
 
 - Formulaire responsive (desktop/mobile, min 320px).
@@ -103,6 +109,7 @@
 - Infobulles fonctionnelles au clic.
 - Bouton « Simuler » activé/désactivé correctement.
 - Tests Vitest passent pour `InputForm.tsx`.
+
 **Durée Estimée** : 4-5 jours (1 développeur).
 
 ### 2.4. Phase 4 : Développement des Résultats
@@ -124,14 +131,18 @@
 4. Écrire tests :
    - `src/tests/TradeTable.test.ts` : Tester tri, affichage.
    - `src/tests/SummaryCard.test.ts` : Tester données.
+
 **Dépendances** : Phase 3 (formulaire, calculs).
+
 **Priorité** : Moyenne (dépend de l’UI principale).
+
 **Critères d’Acceptation** :
 
 - Tableau responsive, triable, avec défilement.
 - Carte résumé affiche données correctes (ex. : ROI calculé).
 - Couleurs conditionnelles appliquées.
 - Tests Vitest passent pour `TradeTable` et `SummaryCard`.
+
 **Durée Estimée** : 3-4 jours (1 développeur).
 
 ### 2.5. Phase 5 : Internationalisation
@@ -155,8 +166,11 @@
    - Menu déroulant dans l’en-tête (ex. : FR/EN).
 4. Tester traductions :
    - Vérifier français et anglais pour tous les textes.
+
 **Dépendances** : Phase 3 (formulaire), Phase 4 (résultats).
+
 **Priorité** : Moyenne (fonctionnalité secondaire).
+
 **Critères d’Acceptation** :
 
 - Tous les textes traduits (français/anglais).
@@ -181,8 +195,11 @@
    - Vérifier toasts et infobulles.
 4. Vérifier contrastes :
    - Utiliser Lighthouse ou WebAIM Contrast Checker.
+
 **Dépendances** : Phase 3 (formulaire), Phase 4 (résultats).
+
 **Priorité** : Moyenne (exigence non fonctionnelle).
+
 **Critères d’Acceptation** :
 
 - Navigation clavier fluide.
@@ -205,14 +222,18 @@
 3. Configurer CI :
    - GitHub Actions pour tests/linting sur push.
 4. Corriger bugs identifiés.
+
 **Dépendances** : Toutes les phases précédentes.
+
 **Priorité** : Élevée (livraison finale).
+
 **Critères d’Acceptation** :
 
 - Tous les tests Vitest passent.
 - Simulation correcte pour cas nominaux et limites.
 - UI responsive et accessible.
 - CI configuré, aucun bug critique.
+
 **Durée Estimée** : 3-4 jours (1 développeur).
 
 ### 2.8. Phase 8 : Documentation et Build
@@ -230,13 +251,17 @@
    - Vérifier bundle size (`--report`).
 4. Tester build :
    - Déployer localement (ex. : `npx serve dist`).
+
 **Dépendances** : Phase 7 (tests validés).
+
 **Priorité** : Moyenne (finalisation).
+
 **Critères d’Acceptation** :
 
 - `README.md` clair et complet.
 - Build de production sans erreurs.
 - Application fonctionnelle dans l’environnement de production.
+
 **Durée Estimée** : 2 jours (1 développeur).
 
 ## 3. Résumé du Plan
