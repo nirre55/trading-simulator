@@ -43,7 +43,7 @@
 - ESLint/Prettier fonctionnels sans erreurs.
 - Vitest configuré, test vide passant.
 - Structure des fichiers créée.
-**Durée Estimée** : 1-2 jours (1 développeur).
+  **Durée Estimée** : 1-2 jours (1 développeur).
 
 ### 2.2. Phase 2 : Définition des Types et Utilitaires
 
@@ -72,6 +72,7 @@
 - Calculs conformes à l’exemple du cahier des charges (ex. : trade avec levier 10x).
 - Validations bloquent saisies irréalistes (ex. : `solde × levier < 100 $`).
 - Couverture Vitest ≥ 90 % pour `calculations.ts` et `validations.ts`.
+
 **Durée Estimée** : 3-4 jours (1 développeur).
 
 ### 2.3. Phase 3 : Développement du Formulaire
@@ -154,12 +155,13 @@
    - Créer `src/i18n.ts` et `src/i18n/fr.json`, `en.json`.
    - Clés : `labels.balance`, `errors.insufficientBalance`, etc.
 2. Intégrer dans les composants :
+
    - Utiliser `useTranslation` pour labels, erreurs, toasts.
    - Exemple :
 
      ```tsx
      const { t } = useTranslation();
-     <label>{t('labels.balance')}</label>
+     <label>{t("labels.balance")}</label>;
      ```
 
 3. Ajouter sélecteur de langue (optionnel) :
@@ -176,6 +178,7 @@
 - Tous les textes traduits (français/anglais).
 - Toasts et erreurs traduits dynamiquement.
 - Changement de langue sans rechargement.
+
 **Durée Estimée** : 2-3 jours (1 développeur).
 
 ### 2.6. Phase 6 : Accessibilité
@@ -206,7 +209,8 @@
 - ARIA labels sur tous les éléments interactifs.
 - Contrastes conformes WCAG (ratio ≥ 4.5:1).
 - Toasts annoncés par lecteurs d’écran.
-**Durée Estimée** : 2-3 jours (1 développeur).
+
+  **Durée Estimée** : 2-3 jours (1 développeur).
 
 ### 2.7. Phase 7 : Tests et Validation
 
@@ -282,7 +286,7 @@
 
 ## 5. Glossaire
 
-- **Vite** : Outil* Outil de build rapide pour React.
+- **Vite** : Outil\* Outil de build rapide pour React.
 - **TailwindCSS** : Framework CSS utilitaire.
 - **react-toastify** : Bibliothèque pour notifications.
 - **react-i18next** : Bibliothèque pour internationalisation.
