@@ -1,0 +1,50 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Système de Validation
+
+Le système de validation vérifie les paramètres d'entrée des simulations de trading et retourne des codes d'erreur spécifiques.
+
+## Fichiers principaux
+
+- [src/utils/validations.ts](mdc:app/trading-simulator/src/utils/validations.ts) - Contient les fonctions de validation
+- [src/utils/types.ts](mdc:app/trading-simulator/src/utils/types.ts) - Définit l'interface InputParameters
+- [tests/validation.test.ts](mdc:app/trading-simulator/tests/validation.test.ts) - Tests des validations
+
+## Fonctions de validation
+
+Le système comprend trois fonctions principales:
+
+1. `validateCommonParams` - Valide les paramètres communs (balance, leverage, stopLoss, etc.)
+2. `validateVariant1` - Valide les paramètres spécifiques à la variante avec points d'entrée manuels
+3. `validateVariant2` - Valide les paramètres spécifiques à la variante avec points d'entrée calculés
+
+## Règles importantes
+
+- Le stop loss doit être > 0
+- Le stop loss doit être < prix d'entrée (pour chaque point d'entrée)
+- La position minimale par trade doit être >= 100$ (balance * leverage / nombre de trades)
+- Les pourcentages de baisse doivent être > 0 et < 100%
+- La balance * leverage doit être >= 100$
+
+## Codes d'erreur
+
+Les codes d'erreur sont utilisés comme valeurs dans l'objet d'erreurs retourné:
+
+- `balanceTooLow` - Balance <= 0
+- `leverageOutOfRange` - Levier <= 0 ou > 100
+- `stopLossTooLow` - Stop Loss <= 0
+- `gainTargetNegative` - Gain Cible < 0
+- `feeNegative` - Frais < 0
+- `durationNegative` - Durée < 0
+- `insufficientPosition` - Position totale < 100$
+- `insufficientPerTrade` - Position par trade < 100$
+- `tradesTooLow` - Nombre de trades < 1
+- `entryPriceTooLow` - Prix d'entrée <= stopLoss
+- `entryPriceNegative` - Prix d'entrée <= 0
+- `initialPriceTooLow` - Prix d'entrée initial <= stopLoss
+- `initialPriceNegative` - Prix d'entrée initial <= 0
+- `percentageOutOfRange` - Pourcentage <= 0 ou >= 100
+- `tooManyPercentages` - Plus de 99 pourcentages

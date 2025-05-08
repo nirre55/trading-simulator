@@ -1,0 +1,59 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Pratiques de Test
+
+L'application utilise Vitest pour les tests unitaires.
+
+## Fichiers de test
+
+- [tests/validation.test.ts](mdc:app/trading-simulator/tests/validation.test.ts) - Tests des validations
+
+## Structure des tests
+
+Les tests sont organisés avec des blocs `describe` pour chaque fonction et des blocs `test` pour chaque cas de test:
+
+```typescript
+describe('validateCommonParams', () => {
+  test('should return no errors for valid params', () => {
+    // Test code
+  });
+  
+  test('should validate balance > 0', () => {
+    // Test code
+  });
+  
+  // More tests...
+});
+```
+
+## Données de test
+
+Chaque bloc de tests utilise un objet `baseParams` qui contient des valeurs par défaut valides:
+
+```typescript
+const baseParams: InputParameters = {
+  balance: 1000,
+  leverage: 10,
+  stopLoss: 20,
+  // Other properties...
+};
+```
+
+## Assertions
+
+Les tests utilisent les assertions de Vitest avec la syntaxe suivante:
+
+```typescript
+expect(errors).toEqual({});
+expect(errors.balance).toBe('balanceTooLow');
+```
+
+## Bonnes pratiques
+
+- Tester chaque règle de validation séparément
+- Vérifier les cas limites (0, valeurs négatives, etc.)
+- Pour les tests qui peuvent déclencher plusieurs erreurs, ajuster les paramètres pour cibler une erreur spécifique
+- Maintenir les tests à jour lorsque la logique de validation change

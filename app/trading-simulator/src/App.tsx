@@ -1,4 +1,7 @@
+// src/App.tsx
 import React from 'react';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import FormSection from './components/forms/FormSection';
 import ThemeToggle from './components/features/ThemeToggle';
 
@@ -10,6 +13,13 @@ const App: React.FC = () => {
         <ThemeToggle />
       </header>
       <FormSection />
+      <ToastContainer
+        position="bottom-right"
+        autoClose={false}
+        closeOnClick
+        className="bg-gray-800 text-white border border-blue-600 rounded-lg p-4"
+        toastClassName="flex items-center"
+      />
     </div>
   );
 };

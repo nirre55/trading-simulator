@@ -1,0 +1,56 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Composants de Formulaire
+
+L'application utilise plusieurs composants pour construire les formulaires et afficher les erreurs.
+
+## Formulaire principal
+
+Le [FormSection](mdc:app/trading-simulator/src/components/forms/FormSection.tsx) est le composant principal qui:
+- Gère l'état du formulaire avec `useState`
+- Valide les entrées via les fonctions de validation
+- Affiche des toasts pour les erreurs critiques
+- Bascule entre deux variantes (manuelle et calculée) avec des onglets
+
+## Composants UI réutilisables
+
+- [ErrorMessage](mdc:app/trading-simulator/src/components/ui/ErrorMessage.tsx) - Affiche les messages d'erreur
+- [Input](mdc:app/trading-simulator/src/components/ui/Input.tsx) - Champ de saisie réutilisable
+- [Label](mdc:app/trading-simulator/src/components/ui/Label.tsx) - Étiquette pour les champs
+- [Select](mdc:app/trading-simulator/src/components/ui/Select.tsx) - Liste déroulante
+- [Checkbox](mdc:app/trading-simulator/src/components/ui/Checkbox.tsx) - Case à cocher
+- [Button](mdc:app/trading-simulator/src/components/ui/Button.tsx) - Bouton d'action
+
+## Structure des données du formulaire
+
+Le formulaire utilise l'interface [InputParameters](mdc:app/trading-simulator/src/utils/types.ts) qui contient:
+
+```typescript
+export interface InputParameters {
+    balance: number;
+    leverage: number;
+    stopLoss: number;
+    gainTarget: number;
+    makerFee: number;
+    takerFee: number;
+    fundingFee: number;
+    duration: number;
+    recovery: boolean;
+    symbol: string;
+    // Variante 1
+    numberOfTrades?: number;
+    entryPrices?: number[];
+    // Variante 2
+    initialEntryPrice?: number;
+    dropPercentages?: number[];
+}
+```
+
+## Gestion des erreurs
+
+Les erreurs de validation sont affichées de deux façons:
+1. Messages d'erreur sous les champs concernés via `ErrorMessage`
+2. Toasts pour les erreurs critiques (ex: "Saisie irréaliste: position totale < 100$")
