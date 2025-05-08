@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Input from './Input';
+import Input from '../ui/Input';
 
 interface DropPercentageInputListProps {
   buttonText?: string;

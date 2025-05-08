@@ -1,6 +1,6 @@
 import React from 'react';
-import FormSection from './components/FormSection';
-import ThemeToggle from './components/ThemeToggle';
+import FormSection from './components/forms/FormSection';
+import ThemeToggle from './components/features/ThemeToggle';
 
 const App: React.FC = () => {
   return (

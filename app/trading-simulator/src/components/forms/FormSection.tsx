@@ -1,12 +1,12 @@
 // components/FormSection.tsx
 import React, { useState } from 'react';
-import Input from './Input';
-import Label from './Label';
-import Select from './Select';
-import Checkbox from './Checkbox';
-import Button from './Button';
+import Input from '../ui/Input';
+import Label from '../ui/Label';
+import Select from '../ui/Select';
+import Checkbox from '../ui/Checkbox';
+import Button from '../ui/Button';
 import DropPercentageInputList from './DropPercentageInputList';
-import Tabs from './Tabs';
+import Tabs from '../layout/Tabs';
 
 const FormSection: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'manual' | 'calculated'>('manual');
