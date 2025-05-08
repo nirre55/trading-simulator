@@ -8,8 +8,8 @@ type CheckboxProps = {
 
 const Checkbox: React.FC<CheckboxProps> = ({ id, label }) => (
   <div className="flex items-center space-x-2">
-    <input type="checkbox" id={id} className="accent-sky-500" />
-    <label htmlFor={id} className="text-sm">{label}</label>
+    <input type="checkbox" id={id} className="accent-sky-500 dark:accent-sky-400" />
+    <label htmlFor={id} className="text-sm text-black dark:text-white">{label}</label>
   </div>
 );
 

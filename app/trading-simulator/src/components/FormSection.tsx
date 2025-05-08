@@ -12,7 +12,7 @@ const FormSection: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'manual' | 'calculated'>('manual');
 
   return (
-    <div className="max-w-3xl mx-auto bg-slate-900 p-6 rounded-lg border border-slate-700">
+    <div className="max-w-3xl mx-auto bg-white dark:bg-slate-900 p-6 rounded-lg border border-gray-300 dark:border-slate-700">
       <Tabs active={activeTab} onChange={setActiveTab} />
 
       {/* Common Parameters */}
@@ -45,7 +45,7 @@ const FormSection: React.FC = () => {
             <Input id="taker" defaultValue="0,2" />
             <Input id="funding" defaultValue="0,01" />
           </div>
-          <div className="flex justify-between text-sm text-gray-400 px-1 mt-1">
+          <div className="flex justify-between text-sm text-gray-600 dark:text-slate-300 px-1 mt-1">
             <span>Maker</span>
             <span>Taker</span>
             <span>Funding</span>
@@ -71,7 +71,7 @@ const FormSection: React.FC = () => {
             </div>
             <div>
               <Label htmlFor="entryPrices">Entry Prices</Label>
-              <DropPercentageInputList buttonText="+ Ajouter Entry Prices" />
+              <DropPercentageInputList buttonText="+ Ajouter Entry Prices" symbol="$" />
             </div>
           </div>
         </div>
@@ -84,7 +84,7 @@ const FormSection: React.FC = () => {
               <Input id="initialPrice" defaultValue="100" />
             </div>
             <Label htmlFor="dropPercentage">Drop Percentage</Label>
-            <DropPercentageInputList buttonText="+ Add Drop Percentage" />
+            <DropPercentageInputList buttonText="+ Add Drop Percentage" symbol="%" />
           </div>
         </div>
       )}

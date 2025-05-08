@@ -3,9 +3,13 @@ import Input from './Input';
 
 interface DropPercentageInputListProps {
   buttonText?: string;
+  symbol?: string;
 }
 
-const DropPercentageInputList: React.FC<DropPercentageInputListProps> = ({ buttonText = '+ Add Drop Percentage' }) => {
+const DropPercentageInputList: React.FC<DropPercentageInputListProps> = ({ 
+  buttonText = '+ Add Drop Percentage',
+  symbol = '%'
+}) => {
   const [values, setValues] = useState<string[]>(['']);
 
   const handleChange = (index: number, value: string) => {
@@ -30,13 +34,13 @@ const DropPercentageInputList: React.FC<DropPercentageInputListProps> = ({ butto
             value={val}
             onChange={(e) => handleChange(idx, e.target.value)}
           />
-          <span className="text-white">%</span>
+          <span className="text-black dark:text-white">{symbol}</span>
           {values.length > 1 && (
             <button onClick={() => removeField(idx)} className="text-red-400">⊖</button>
           )}
         </div>
       ))}
-      <button onClick={addField} className="mt-2 text-sm text-slate-300 hover:text-white">{buttonText}</button>
+      <button onClick={addField} className="mt-2 text-sm text-gray-600 dark:text-slate-300 hover:text-black dark:hover:text-white">{buttonText}</button>
     </div>
   );
 };

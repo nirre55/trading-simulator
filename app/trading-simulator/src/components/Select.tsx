@@ -9,7 +9,7 @@ type SelectProps = {
 const Select: React.FC<SelectProps> = ({ id, options }) => (
   <select
     id={id}
-    className="w-full bg-slate-800 border border-slate-600 px-3 py-2 rounded text-white"
+    className="w-full bg-white text-black dark:bg-slate-800 dark:text-white border border-slate-600 px-3 py-2 rounded"
   >
     {options.map((option) => (
       <option key={option} value={option}>

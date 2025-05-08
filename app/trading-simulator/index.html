@@ -5,6 +5,23 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite + React + TS</title>
+    <!-- 
+      Ce script gère la détection et l'application automatique du thème sombre :
+      1. Il vérifie d'abord si un thème est déjà sauvegardé dans le localStorage
+      2. Si aucun thème n'est sauvegardé, il vérifie les préférences système de l'utilisateur
+      3. Si le thème est 'dark' ou si l'utilisateur préfère le mode sombre dans ses paramètres système,
+         la classe 'dark' est ajoutée à l'élément html pour activer le thème sombre
+      IMPORTAMT: Pour éviter un effet de clignotement lors du chargement initial de la page
+    -->
+    <script>
+      (function() {
+        const theme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (theme === 'dark' || (!theme && prefersDark)) {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

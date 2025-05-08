@@ -7,7 +7,7 @@ type LabelProps = {
 };
 
 const Label: React.FC<LabelProps> = ({ htmlFor, children }) => (
-  <label htmlFor={htmlFor} className="block text-sm font-medium mb-1">
+  <label htmlFor={htmlFor} className="block text-sm font-medium mb-1 text-black dark:text-white">
     {children}
   </label>
 );
