@@ -1,0 +1,38 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Exigences Principales du Projet
+
+Ce fichier résume les exigences clés du Simulateur de Positions de Trading (Crypto). Consultez [project_requirements_document.md](mdc:documentation/project_requirements_document.md) pour les détails complets.
+
+## Application
+
+- Application client-side sans backend, utilisant React, Vite, TypeScript et TailwindCSS
+- Interface bilingue (français/anglais) via react-i18next
+- Notifications via react-toastify
+- Tests avec Vitest (couverture ≥ 90%)
+
+## Fonctionnalités Clés
+
+### Deux Variantes de Simulation
+1. **Variante 1 - Points d'Entrée Manuels** : L'utilisateur définit manuellement chaque prix d'entrée
+2. **Variante 2 - Points d'Entrée Calculés** : Les prix sont calculés automatiquement à partir de pourcentages de baisse
+
+### Calculs Principaux
+- Montant par trade (minimum 100$)
+- Prix de sortie basé sur le pourcentage de gain cible
+- Frais (maker, taker, financement)
+- Récupération des pertes cumulées
+- ROI et autres métriques de performance
+
+### Interface Utilisateur
+- Formulaire avec validation
+- Tableau des résultats de trades
+- Carte résumé avec métriques globales
+- Support complet d'accessibilité
+
+## Structure du Code
+Consultez [tech_stack_document.md](mdc:documentation/tech_stack_document.md) et [frontend_guidelines_document.md](mdc:documentation/frontend_guidelines_document.md) pour les détails d'implémentation.
+

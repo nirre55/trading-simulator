@@ -1,4 +1,7 @@
 {
+  "app": {
+    "title": "Simulateur de Trading"
+  },
   "common": {
     "simulate": "Simuler",
     "reset": "Réinitialiser",

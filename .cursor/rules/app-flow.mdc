@@ -1,0 +1,42 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Flux de l'Application et Parcours Utilisateur
+
+Ce fichier définit le parcours utilisateur du Simulateur de Positions de Trading. Consultez [app_flow_document.md](mdc:documentation/app_flow_document.md) pour les détails complets.
+
+## Étapes Principales du Parcours Utilisateur
+
+1. **Accès à l'Application** - L'utilisateur accède à l'application (deux onglets : Variante 1 et Variante 2)
+2. **Configuration des Paramètres** - Saisie des paramètres communs et spécifiques à la variante
+3. **Simulation des Trades** - Calculs basés sur les paramètres et la variante choisie
+4. **Visualisation des Résultats** - Affichage du tableau des trades et de la carte résumé
+5. **Ajustements et Nouvelle Simulation** - Modification des paramètres et relance de la simulation
+
+## Validation et Erreurs
+
+- Validation en temps réel avec erreurs inline sous les champs
+- Notifications toast pour les erreurs globales et alertes
+- Gestion des cas spéciaux (solde insuffisant, saisie irréaliste)
+
+## Interface Utilisateur
+
+- Onglets pour basculer entre les deux variantes
+- Formulaire avec champs dynamiques et infobulles
+- Tableau des résultats triable et carte résumé
+- Navigation clavier complète et support d'accessibilité
+
+## Flux Spécifiques par Variante
+
+### Variante 1 (Points d'Entrée Manuels)
+- Nombre de trades définit le nombre de champs prix d'entrée
+- Montant par trade = solde total / nombre de trades
+- Validation de chaque prix d'entrée > stop-loss
+
+### Variante 2 (Points d'Entrée Calculés)
+- Calcul itératif des prix d'entrée à partir des pourcentages de baisse
+- Arrêt lorsque le prix calculé ≤ stop-loss
+- Détermination automatique du nombre de trades
+

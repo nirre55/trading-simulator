@@ -10,7 +10,7 @@ const Header: React.FC = () => {
     <header className="bg-white dark:bg-slate-800 shadow-md py-4">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
         <h1 className="text-xl font-bold text-gray-900 dark:text-white">
-          Trading Simulator
+          {t('app.title')}
         </h1>
         <div className="flex space-x-4 items-center">
           <LanguageSelector />

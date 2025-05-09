@@ -1,4 +1,7 @@
 {
+  "app": {
+    "title": "Trading Simulator"
+  },
   "common": {
     "simulate": "Simulate",
     "reset": "Reset",

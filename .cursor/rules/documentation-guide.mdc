@@ -1,0 +1,33 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Guide de la Documentation du Simulateur de Trading
+
+Ce dossier contient la documentation complète du projet Simulateur de Positions de Trading (Crypto).
+
+## Structure de la Documentation
+
+### Exigences et Planification
+- [project_requirements_document.md](mdc:documentation/project_requirements_document.md) - Document principal des exigences fonctionnelles et non fonctionnelles
+- [implementation_plan.md](mdc:documentation/implementation_plan.md) - Plan détaillé d'implémentation et calendrier du projet
+
+### Architecture Technique
+- [tech_stack_document.md](mdc:documentation/tech_stack_document.md) - Description détaillée de la pile technologique
+- [backend_structure_document.md](mdc:documentation/backend_structure_document.md) - Structure du backend (client-side uniquement)
+
+### Guides de Développement
+- [frontend_guidelines_document.md](mdc:documentation/frontend_guidelines_document.md) - Directives pour le développement frontend
+- [cursor_project_rules.md](mdc:documentation/cursor_project_rules.md) - Règles spécifiques pour ce projet dans Cursor
+
+### Flux Utilisateur
+- [app_flow_document.md](mdc:documentation/app_flow_document.md) - Description détaillée du parcours utilisateur et des interactions
+
+## Règles de Mise à Jour
+
+1. Toute modification des exigences doit être reflétée dans le document des exigences et dans le plan d'implémentation
+2. La documentation doit rester synchronisée avec le code source
+3. Les documents doivent être en français, avec un formatage Markdown cohérent
+4. Les références croisées entre documents doivent être maintenues et mises à jour
+
