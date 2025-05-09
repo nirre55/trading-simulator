@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import LanguageSelector from '../ui/LanguageSelector';
-import ThemeToggle from '../features/ThemeToggle';
+import { LanguageSelector } from '../ui';
+import { ThemeToggle } from '../features';
 
 const Header: React.FC = () => {
   const { t } = useTranslation();

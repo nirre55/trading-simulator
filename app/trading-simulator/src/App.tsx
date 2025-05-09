@@ -3,9 +3,9 @@ import React from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useTranslation } from 'react-i18next';
-import { default as FormSection } from './components/forms/FormSection';
-import ThemeToggle from './components/features/ThemeToggle';
-import Header from './components/layout/Header';
+import { FormSection } from './components/forms';
+import { ThemeToggle } from './components/features';
+import { Header } from './components/layout';
 
 const App: React.FC = () => {
   const { t } = useTranslation();

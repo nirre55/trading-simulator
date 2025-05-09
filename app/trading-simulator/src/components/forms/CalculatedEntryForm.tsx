@@ -13,10 +13,25 @@ const CalculatedEntryForm: React.FC<{
 }> = ({ formData, errors, handleInputChange }) => {
   const { t } = useTranslation();
   
+  // Calculer le nombre de trades (égal au nombre de dropPercentages)
+  const totalTrades = formData.dropPercentages ? formData.dropPercentages.length : 0;
+  
   return (
     <div className="mt-8">
       <h3 className="text-md font-semibold mb-2">{t('sections.calculatedEntryPoints')}</h3>
       <div className="space-y-4">
+        <div>
+          <Label htmlFor="numberOfTrades">{t('fields.numberOfTrades')}</Label>
+          <Input
+            id="numberOfTrades"
+            type="number"
+            value={totalTrades}
+            readOnly
+            disabled
+            className="bg-gray-100 dark:bg-gray-700"
+          />
+          <p className="text-xs text-gray-500 mt-1 italic">{t('fields.autoDropTradesCount')}</p>
+        </div>
         <div>
           <Label htmlFor="initialPrice">{t('fields.initialPrice')}</Label>
           <Input

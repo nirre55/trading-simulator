@@ -1,12 +1,8 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import Input from '../ui/Input';
-import Label from '../ui/Label';
-import Select from '../ui/Select';
-import Checkbox from '../ui/Checkbox';
-import ErrorMessage from '../ui/ErrorMessage';
+import { Input, Label, Select, Checkbox, ErrorMessage } from '../ui';
 import FeesInputGroup from './FeesInputGroup';
-import type { InputParameters } from '../../utils/types';
+import { type InputParameters } from '../../utils';
 
 const CommonParameters: React.FC<{
   formData: InputParameters;

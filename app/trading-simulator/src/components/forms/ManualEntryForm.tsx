@@ -23,13 +23,12 @@ const ManualEntryForm: React.FC<{
             id="numTrades"
             type="number"
             value={formData.numberOfTrades}
-            onChange={(e) =>
-              handleInputChange('numberOfTrades', Number(e.target.value))
-            }
+            readOnly
+            disabled
             aria-describedby={
               errors.numberOfTrades ? 'numTrades-error' : undefined
             }
-            className={errors.numberOfTrades ? 'border-red-400' : ''}
+            className={`bg-gray-100 dark:bg-gray-700 ${errors.numberOfTrades ? 'border-red-400' : ''}`}
           />
           {errors.numberOfTrades && (
             <ErrorMessage
@@ -41,6 +40,7 @@ const ManualEntryForm: React.FC<{
               }
             />
           )}
+          <p className="text-xs text-gray-500 mt-1 italic">{t('fields.autoTradesCount')}</p>
         </div>
         <div>
           <Label htmlFor="entryPrices">{t('fields.entryPrices')}</Label>
