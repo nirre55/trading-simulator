@@ -14,6 +14,7 @@ Le [FormSection](mdc:app/trading-simulator/src/components/forms/FormSection.tsx)
 - Valide les entrées via les fonctions de validation
 - Affiche des toasts pour les erreurs critiques
 - Bascule entre deux variantes (manuelle et calculée) avec des onglets
+- Utilise i18next pour les traductions via le hook `useTranslation`
 
 ## Composants UI réutilisables
 
@@ -23,6 +24,7 @@ Le [FormSection](mdc:app/trading-simulator/src/components/forms/FormSection.tsx)
 - [Select](mdc:app/trading-simulator/src/components/ui/Select.tsx) - Liste déroulante
 - [Checkbox](mdc:app/trading-simulator/src/components/ui/Checkbox.tsx) - Case à cocher
 - [Button](mdc:app/trading-simulator/src/components/ui/Button.tsx) - Bouton d'action
+- [LanguageSelector](mdc:app/trading-simulator/src/components/ui/LanguageSelector.tsx) - Sélecteur de langue FR/EN
 
 ## Structure des données du formulaire
 
@@ -52,5 +54,10 @@ export interface InputParameters {
 ## Gestion des erreurs
 
 Les erreurs de validation sont affichées de deux façons:
-1. Messages d'erreur sous les champs concernés via `ErrorMessage`
-2. Toasts pour les erreurs critiques (ex: "Saisie irréaliste: position totale < 100$")
+1. Messages d'erreur sous les champs concernés via `ErrorMessage` avec des textes traduits
+2. Toasts pour les erreurs critiques via react-toastify avec des textes traduits
+
+## Layout
+
+- [Header](mdc:app/trading-simulator/src/components/layout/Header.tsx) - En-tête avec titre et sélecteur de langue
+- [Tabs](mdc:app/trading-simulator/src/components/layout/Tabs.tsx) - Onglets pour basculer entre variantes, avec textes internationalisés

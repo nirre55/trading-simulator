@@ -1,0 +1,57 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Système d'Internationalisation
+
+L'application Trading Simulator supporte plusieurs langues (français et anglais) via le framework i18next.
+
+## Configuration
+
+- [src/i18n.ts](mdc:app/trading-simulator/src/i18n.ts) - Point d'entrée de l'internationalisation
+  - Initialise i18next avec les fichiers de traduction
+  - Configure la détection automatique de la langue du navigateur
+  - Définit le français comme langue par défaut
+
+## Fichiers de traduction
+
+- [src/i18n/fr.json](mdc:app/trading-simulator/src/i18n/fr.json) - Traductions françaises
+- [src/i18n/en.json](mdc:app/trading-simulator/src/i18n/en.json) - Traductions anglaises
+
+## Structure des traductions
+
+Les traductions sont organisées par sections:
+- `common` - Textes communs (boutons, actions)
+- `tabs` - Onglets de l'application
+- `sections` - Titres de sections
+- `fields` - Labels des champs de formulaire
+- `errors` - Messages d'erreur
+- `toasts` - Notifications toast
+
+## Intégration dans les composants
+
+Les composants React accèdent aux traductions via le hook `useTranslation`:
+
+```tsx
+import { useTranslation } from 'react-i18next';
+
+const Component = () => {
+  const { t } = useTranslation();
+  
+  return (
+    <div>
+      <h2>{t('sections.commonParameters')}</h2>
+      <label>{t('fields.balance')}</label>
+      {error && <ErrorMessage message={t('errors.balanceTooLow')} />}
+    </div>
+  );
+};
+```
+
+## Sélection de la langue
+
+Le composant [LanguageSelector](mdc:app/trading-simulator/src/components/ui/LanguageSelector.tsx) permet à l'utilisateur de changer de langue:
+- Boutons FR/EN dans l'en-tête
+- Stockage de la préférence dans localStorage
+- Détection automatique de la langue du navigateur

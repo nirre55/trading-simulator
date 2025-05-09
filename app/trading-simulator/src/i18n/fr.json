@@ -1,0 +1,64 @@
+{
+  "common": {
+    "simulate": "Simuler",
+    "reset": "Réinitialiser",
+    "lossRecovery": "Récupération des pertes"
+  },
+  "tabs": {
+    "manual": "Points d'entrée manuels",
+    "calculated": "Points d'entrée calculés"
+  },
+  "sections": {
+    "commonParameters": "Paramètres communs",
+    "manualEntryPoints": "Points d'entrée manuels",
+    "calculatedEntryPoints": "Points d'entrée calculés"
+  },
+  "fields": {
+    "balance": "Solde total",
+    "leverage": "Effet de levier",
+    "stopLoss": "Prix Stop-loss",
+    "gainTarget": "Gain cible %",
+    "fees": "Frais (%)",
+    "maker": "Maker",
+    "taker": "Taker",
+    "funding": "Financement",
+    "duration": "Durée",
+    "symbol": "Symbole",
+    "numberOfTrades": "Nombre de trades",
+    "entryPrices": "Prix d'entrée",
+    "initialPrice": "Prix d'entrée initial",
+    "dropPercentage": "Pourcentage de baisse"
+  },
+  "errors": {
+    "balanceTooLow": "Solde doit être > 0.",
+    "leverageOutOfRange": "Levier doit être entre 0 et 100.",
+    "stopLossTooLow": "Stop-Loss doit être > 0.",
+    "stopLossVsEntryPrice": "Stop-Loss doit être < Prix d'Entrée.",
+    "gainTargetNegative": "Gain Cible doit être ≥ 0.",
+    "feeNegative": {
+      "maker": "Frais Maker doit être ≥ 0.",
+      "taker": "Frais Taker doit être ≥ 0.",
+      "funding": "Frais Financement doit être ≥ 0."
+    },
+    "durationNegative": "Durée doit être ≥ 0.",
+    "insufficientPosition": "Saisie irréaliste : position totale < 100 $.",
+    "insufficientPerTrade": "Solde trop faible : minimum 100 $ requis par trade.",
+    "tradesTooLow": "Nombre de Trades doit être ≥ 1.",
+    "entryPriceTooLow": "Prix d'Entrée doit être > Stop-Loss.",
+    "entryPriceNegative": "Prix d'Entrée doit être > 0.",
+    "initialPriceTooLow": "Prix d'Entrée Initial doit être > Stop-Loss.",
+    "initialPriceNegative": "Prix d'Entrée Initial doit être > 0.",
+    "percentageOutOfRange": "Pourcentage de Baisse doit être entre 0 et 100.",
+    "tooManyPercentages": "Maximum 99 pourcentages."
+  },
+  "toasts": {
+    "insufficientPosition": "Saisie irréaliste : position totale < 100 $.",
+    "insufficientPerTrade": "Solde trop faible : minimum 100 $ requis par trade.",
+    "leverageZero": "Levier à 0 : simulation impossible.",
+    "durationZero": "Durée à 0 : frais de financement ignorés."
+  },
+  "buttons": {
+    "addEntryPrice": "+ Ajouter Prix d'Entrée",
+    "addDropPercentage": "+ Ajouter % de Baisse"
+  }
+} 

@@ -1,0 +1,64 @@
+{
+  "common": {
+    "simulate": "Simulate",
+    "reset": "Reset",
+    "lossRecovery": "Loss Recovery"
+  },
+  "tabs": {
+    "manual": "Manual Entry Points",
+    "calculated": "Calculated Entry Points"
+  },
+  "sections": {
+    "commonParameters": "Common Parameters",
+    "manualEntryPoints": "Manual Entry Points",
+    "calculatedEntryPoints": "Calculated Entry Points"
+  },
+  "fields": {
+    "balance": "Total Balance",
+    "leverage": "Leverage",
+    "stopLoss": "Stop-loss Price",
+    "gainTarget": "Target Gain %",
+    "fees": "Fees (%)",
+    "maker": "Maker",
+    "taker": "Taker",
+    "funding": "Funding",
+    "duration": "Duration",
+    "symbol": "Symbol",
+    "numberOfTrades": "Number of Trades",
+    "entryPrices": "Entry Prices",
+    "initialPrice": "Initial Entry Price",
+    "dropPercentage": "Drop Percentage"
+  },
+  "errors": {
+    "balanceTooLow": "Balance must be > 0.",
+    "leverageOutOfRange": "Leverage must be between 0 and 100.",
+    "stopLossTooLow": "Stop-Loss must be > 0.",
+    "stopLossVsEntryPrice": "Stop-Loss must be < Entry Price.",
+    "gainTargetNegative": "Target Gain must be ≥ 0.",
+    "feeNegative": {
+      "maker": "Maker Fee must be ≥ 0.",
+      "taker": "Taker Fee must be ≥ 0.",
+      "funding": "Funding Fee must be ≥ 0."
+    },
+    "durationNegative": "Duration must be ≥ 0.",
+    "insufficientPosition": "Unrealistic input: total position < $100.",
+    "insufficientPerTrade": "Insufficient balance: minimum of $100 required per trade.",
+    "tradesTooLow": "Number of Trades must be ≥ 1.",
+    "entryPriceTooLow": "Entry Price must be > Stop-Loss.",
+    "entryPriceNegative": "Entry Price must be > 0.",
+    "initialPriceTooLow": "Initial Entry Price must be > Stop-Loss.",
+    "initialPriceNegative": "Initial Entry Price must be > 0.",
+    "percentageOutOfRange": "Drop Percentage must be between 0 and 100.",
+    "tooManyPercentages": "Maximum 99 percentages."
+  },
+  "toasts": {
+    "insufficientPosition": "Unrealistic input: total position < $100.",
+    "insufficientPerTrade": "Insufficient balance: minimum of $100 required per trade.",
+    "leverageZero": "Leverage at 0: simulation not possible.",
+    "durationZero": "Duration at 0: funding fees ignored."
+  },
+  "buttons": {
+    "addEntryPrice": "+ Add Entry Price",
+    "addDropPercentage": "+ Add Drop Percentage"
+  }
+} 

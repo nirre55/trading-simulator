@@ -51,9 +51,33 @@ expect(errors).toEqual({});
 expect(errors.balance).toBe('balanceTooLow');
 ```
 
+## Tests d'internationalisation
+
+Pour tester les fonctionnalités d'internationalisation, considérez:
+
+1. **Tests unitaires pour les traductions**:
+   - Vérifier que toutes les clés nécessaires existent dans les fichiers de traduction
+   - S'assurer que les traductions sont conformes aux exigences
+
+2. **Tests d'intégration**:
+   - Tester le changement de langue via le composant `LanguageSelector`
+   - Vérifier que l'interface s'adapte à la langue sélectionnée
+
+3. **Mocking i18next**:
+   ```typescript
+   // Mock i18next
+   vi.mock('react-i18next', () => ({
+     useTranslation: () => ({
+       t: (key: string) => key, // Retourne la clé au lieu de la traduction
+       i18n: { language: 'fr', changeLanguage: vi.fn() }
+     })
+   }));
+   ```
+
 ## Bonnes pratiques
 
 - Tester chaque règle de validation séparément
 - Vérifier les cas limites (0, valeurs négatives, etc.)
 - Pour les tests qui peuvent déclencher plusieurs erreurs, ajuster les paramètres pour cibler une erreur spécifique
 - Maintenir les tests à jour lorsque la logique de validation change
+- Pour l'internationalisation, tester la présence et la cohérence des clés de traduction

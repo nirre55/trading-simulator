@@ -14,6 +14,7 @@ Le Trading Simulator est une application qui permet de simuler des strategies de
   - `src/components/forms/` - Composants de formulaires
   - `src/components/layout/` - Composants de mise en page
 - `src/utils/` - Utilitaires et fonctions auxiliaires
+- `src/i18n/` - Fichiers de traduction
 - `tests/` - Tests unitaires et d'intégration
 
 ## Fichiers principaux
@@ -22,3 +23,6 @@ Le Trading Simulator est une application qui permet de simuler des strategies de
 - [src/utils/validations.ts](mdc:app/trading-simulator/src/utils/validations.ts) - Fonctions de validation des entrées
 - [src/components/forms/FormSection.tsx](mdc:app/trading-simulator/src/components/forms/FormSection.tsx) - Formulaire principal
 - [src/components/ui/ErrorMessage.tsx](mdc:app/trading-simulator/src/components/ui/ErrorMessage.tsx) - Composant pour afficher les messages d'erreur
+- [src/i18n.ts](mdc:app/trading-simulator/src/i18n.ts) - Configuration de l'internationalisation
+- [src/i18n/fr.json](mdc:app/trading-simulator/src/i18n/fr.json) - Traductions françaises
+- [src/i18n/en.json](mdc:app/trading-simulator/src/i18n/en.json) - Traductions anglaises

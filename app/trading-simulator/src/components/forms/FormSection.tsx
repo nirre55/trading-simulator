@@ -1,6 +1,7 @@
 // src/components/forms/FormSection.tsx
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 import Input from '../ui/Input';
 import Label from '../ui/Label';
 import Select from '../ui/Select';
@@ -17,6 +18,7 @@ import {
 import type { InputParameters } from '../../utils/types';
 
 const FormSection: React.FC = () => {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<'manual' | 'calculated'>('manual');
   const [formData, setFormData] = useState<InputParameters>({
     balance: 1000,
@@ -47,28 +49,28 @@ const FormSection: React.FC = () => {
 
     // Toasts pour erreurs critiques ou informatives
     if (allErrors.balance === 'insufficientPosition') {
-      toast.error('Saisie irréaliste : position totale < 100 $.', {
+      toast.error(t('toasts.insufficientPosition'), {
         position: 'bottom-right',
         autoClose: false,
         closeOnClick: true,
       });
     }
     if (allErrors.balance === 'insufficientPerTrade') {
-      toast.error('Solde trop faible : minimum 100 $ requis par trade.', {
+      toast.error(t('toasts.insufficientPerTrade'), {
         position: 'bottom-right',
         autoClose: false,
         closeOnClick: true,
       });
     }
     if (formData.leverage === 0) {
-      toast.info('Levier à 0 : simulation impossible.', {
+      toast.info(t('toasts.leverageZero'), {
         position: 'bottom-right',
         autoClose: false,
         closeOnClick: true,
       });
     }
     /*if (formData.duration === 0) {
-      toast.info('Durée à 0 : frais de financement ignorés.', {
+      toast.info(t('toasts.durationZero'), {
         position: 'bottom-right',
         autoClose: 3000,
         closeOnClick: true,
@@ -96,10 +98,10 @@ const FormSection: React.FC = () => {
       <Tabs active={activeTab} onChange={setActiveTab} />
 
       {/* Common Parameters */}
-      <h2 className="text-lg font-semibold mb-4">Common Parameters</h2>
+      <h2 className="text-lg font-semibold mb-4">{t('sections.commonParameters')}</h2>
       <div className="space-y-4">
         <div>
-          <Label htmlFor="balance">Total Balance</Label>
+          <Label htmlFor="balance">{t('fields.balance')}</Label>
           <Input
             id="balance"
             type="number"
@@ -113,15 +115,15 @@ const FormSection: React.FC = () => {
               id="balance-error"
               message={
                 errors.balance === 'balanceTooLow'
-                  ? 'Solde doit être > 0.'
-                  : 'Saisie irréaliste : position totale < 100 $.'
+                  ? t('errors.balanceTooLow')
+                  : t('errors.insufficientPosition')
               }
             />
           )}
         </div>
 
         <div>
-          <Label htmlFor="leverage">Leverage</Label>
+          <Label htmlFor="leverage">{t('fields.leverage')}</Label>
           <Select
             id="leverage"
             options={['1x', '5x', '10x', '50x', '100x']}
@@ -131,13 +133,13 @@ const FormSection: React.FC = () => {
           {errors.leverage && (
             <ErrorMessage
               id="leverage-error"
-              message="Levier doit être entre 0 et 100."
+              message={t('errors.leverageOutOfRange')}
             />
           )}
         </div>
 
         <div>
-          <Label htmlFor="stoploss">Stop-loss Price</Label>
+          <Label htmlFor="stoploss">{t('fields.stopLoss')}</Label>
           <Input
             id="stoploss"
             type="number"
@@ -149,18 +151,18 @@ const FormSection: React.FC = () => {
           {errors.stopLoss === 'stopLossTooLow' ? (
             <ErrorMessage
               id="stoploss-error"
-              message="Stop-Loss doit être > 0."
+              message={t('errors.stopLossTooLow')}
             />
           ) : errors.stopLoss && (
             <ErrorMessage
               id="stoploss-error"
-              message="Stop-Loss doit être < Prix d'Entrée."
+              message={t('errors.stopLossVsEntryPrice')}
             />
           )}
         </div>
 
         <div>
-          <Label htmlFor="target">Target Gain %</Label>
+          <Label htmlFor="target">{t('fields.gainTarget')}</Label>
           <Input
             id="target"
             type="number"
@@ -172,12 +174,15 @@ const FormSection: React.FC = () => {
             className={errors.gainTarget ? 'border-red-400' : ''}
           />
           {errors.gainTarget && (
-            <ErrorMessage id="target-error" message="Gain Cible doit être ≥ 0." />
+            <ErrorMessage
+              id="target-error"
+              message={t('errors.gainTargetNegative')}
+            />
           )}
         </div>
 
         <div>
-          <Label htmlFor="fees">Fees (%)</Label>
+          <Label htmlFor="fees">{t('fields.fees')}</Label>
           <div className="grid grid-cols-4 gap-2">
             <div>
               <Input
@@ -193,7 +198,7 @@ const FormSection: React.FC = () => {
               {errors.makerFee && (
                 <ErrorMessage
                   id="maker-error"
-                  message="Frais Maker doit être ≥ 0."
+                  message={t('errors.feeNegative.maker')}
                 />
               )}
             </div>
@@ -211,7 +216,7 @@ const FormSection: React.FC = () => {
               {errors.takerFee && (
                 <ErrorMessage
                   id="taker-error"
-                  message="Frais Taker doit être ≥ 0."
+                  message={t('errors.feeNegative.taker')}
                 />
               )}
             </div>
@@ -229,7 +234,7 @@ const FormSection: React.FC = () => {
               {errors.fundingFee && (
                 <ErrorMessage
                   id="funding-error"
-                  message="Frais Financement doit être ≥ 0."
+                  message={t('errors.feeNegative.funding')}
                 />
               )}
             </div>
@@ -247,22 +252,22 @@ const FormSection: React.FC = () => {
               {errors.duration && (
                 <ErrorMessage
                   id="duration-error"
-                  message="Durée doit être ≥ 0."
+                  message={t('errors.durationNegative')}
                 />
               )}
             </div>
           </div>
           <div className="flex justify-between text-sm text-gray-600 dark:text-slate-300 px-1 mt-1">
-            <span>Maker</span>
-            <span>Taker</span>
-            <span>Funding</span>
-            <span>Duration</span>
+            <span>{t('fields.maker')}</span>
+            <span>{t('fields.taker')}</span>
+            <span>{t('fields.funding')}</span>
+            <span>{t('fields.duration')}</span>
           </div>
         </div>
 
         <Checkbox
           id="recovery"
-          label="Loss recovery"
+          label={t('common.lossRecovery')}
           checked={formData.recovery}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             handleInputChange('recovery', e.target.checked)
@@ -270,7 +275,7 @@ const FormSection: React.FC = () => {
         />
 
         <div>
-          <Label htmlFor="symbol">Symbol</Label>
+          <Label htmlFor="symbol">{t('fields.symbol')}</Label>
           <Input
             id="symbol"
             type="text"
@@ -283,10 +288,10 @@ const FormSection: React.FC = () => {
       {/* Tab-specific sections */}
       {activeTab === 'manual' ? (
         <div className="mt-8">
-          <h3 className="text-md font-semibold mb-2">Manual Entry Points</h3>
+          <h3 className="text-md font-semibold mb-2">{t('sections.manualEntryPoints')}</h3>
           <div className="space-y-4">
             <div>
-              <Label htmlFor="numTrades">Number of Trades</Label>
+              <Label htmlFor="numTrades">{t('fields.numberOfTrades')}</Label>
               <Input
                 id="numTrades"
                 type="number"
@@ -304,24 +309,24 @@ const FormSection: React.FC = () => {
                   id="numTrades-error"
                   message={
                     errors.numberOfTrades === 'tradesTooLow'
-                      ? 'Nombre de Trades doit être ≥ 1.'
-                      : 'Solde trop faible : minimum 100 $ requis par trade.'
+                      ? t('errors.tradesTooLow')
+                      : t('errors.insufficientPerTrade')
                   }
                 />
               )}
             </div>
             <div>
-              <Label htmlFor="entryPrices">Entry Prices</Label>
+              <Label htmlFor="entryPrices">{t('fields.entryPrices')}</Label>
               <DropPercentageInputList
-                buttonText="+ Ajouter Entry Prices"
+                buttonText={t('buttons.addEntryPrice')}
                 symbol="$"
                 values={formData.entryPrices!}
                 onChange={(values) => handleInputChange('entryPrices', values)}
                 errors={formData.entryPrices?.map((_, idx) =>
                   errors[`entryPrice${idx}`]
                     ? errors[`entryPrice${idx}`] === 'entryPriceTooLow'
-                      ? 'Prix d’Entrée doit être > Stop-Loss.'
-                      : 'Prix d’Entrée doit être > 0.'
+                      ? t('errors.entryPriceTooLow')
+                      : t('errors.entryPriceNegative')
                     : ''
                 )}
               />
@@ -330,10 +335,10 @@ const FormSection: React.FC = () => {
         </div>
       ) : (
         <div className="mt-8">
-          <h3 className="text-md font-semibold mb-2">Calculated Entry Points</h3>
+          <h3 className="text-md font-semibold mb-2">{t('sections.calculatedEntryPoints')}</h3>
           <div className="space-y-4">
             <div>
-              <Label htmlFor="initialPrice">Initial Entry Price</Label>
+              <Label htmlFor="initialPrice">{t('fields.initialPrice')}</Label>
               <Input
                 id="initialPrice"
                 type="number"
@@ -351,16 +356,16 @@ const FormSection: React.FC = () => {
                   id="initialPrice-error"
                   message={
                     errors.initialEntryPrice === 'initialPriceTooLow'
-                      ? 'Prix d’Entrée Initial doit être > Stop-Loss.'
-                      : 'Prix d’Entrée Initial doit être > 0.'
+                      ? t('errors.initialPriceTooLow')
+                      : t('errors.initialPriceNegative')
                   }
                 />
               )}
             </div>
             <div>
-              <Label htmlFor="dropPercentage">Drop Percentage</Label>
+              <Label htmlFor="dropPercentage">{t('fields.dropPercentage')}</Label>
               <DropPercentageInputList
-                buttonText="+ Add Drop Percentage"
+                buttonText={t('buttons.addDropPercentage')}
                 symbol="%"
                 values={formData.dropPercentages!}
                 onChange={(values) =>
@@ -368,9 +373,11 @@ const FormSection: React.FC = () => {
                 }
                 errors={formData.dropPercentages?.map((_, idx) =>
                   errors[`dropPercentage${idx}`]
-                    ? 'Pourcentage de Baisse doit être entre 0 et 100.'
+                    ? t('errors.percentageOutOfRange')
                     : errors.dropPercentages === 'tooManyPercentages'
-                    ? 'Maximum 99 pourcentages.'
+                    ? t('errors.tooManyPercentages')
+                    : errors.dropPercentages === 'insufficientPerTrade'
+                    ? t('errors.insufficientPerTrade')
                     : ''
                 )}
               />
@@ -379,7 +386,8 @@ const FormSection: React.FC = () => {
         </div>
       )}
 
-      <Button onClick={handleSimulate}>Simulate</Button>
+      {/* Bouton de simulation */}
+      <Button onClick={handleSimulate}>{t('common.simulate')}</Button>
     </div>
   );
 };

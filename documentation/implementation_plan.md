@@ -164,7 +164,7 @@
      <label>{t("labels.balance")}</label>;
      ```
 
-3. Ajouter sélecteur de langue (optionnel) :
+3. Ajouter sélecteur de langue devant le toggle dark/light mode:
    - Menu déroulant dans l’en-tête (ex. : FR/EN).
 4. Tester traductions :
    - Vérifier français et anglais pour tous les textes.
