@@ -16,7 +16,8 @@
     "commonParameters": "Common Parameters",
     "manualEntryPoints": "Manual Entry Points",
     "calculatedEntryPoints": "Calculated Entry Points",
-    "results": "Simulation Results"
+    "results": "Simulation Results",
+    "tradesDetail": "Trades Detail"
   },
   "fields": {
     "balance": "Total Balance",
@@ -76,6 +77,17 @@
     "riskTotal": "Total Risk",
     "profitTarget": "Profit Target",
     "totalFees": "Total Fees",
+    "riskRewardRatio": "Risk/Reward Ratio"
+  },
+  "tradeTable": {
+    "tradeNumber": "Trade #",
+    "entryPrice": "Entry Price",
+    "amount": "Amount",
+    "cryptoAmount": "Crypto Quantity",
+    "liquidationPrice": "Liquidation Price",
+    "exitPrice": "Exit Price",
+    "profit": "Profit",
+    "fees": "Fees",
     "riskRewardRatio": "Risk/Reward Ratio"
   }
 } 

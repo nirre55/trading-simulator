@@ -27,6 +27,7 @@ interface CalculationResults {
   totalFees: number;
   riskRewardRatio: number;
   entryPrices: number[];
+  variant: 'manual' | 'calculated';
 }
 
 // Composant principal
@@ -161,7 +162,17 @@ const FormSection: React.FC = () => {
       )}
 
       {/* Affichage des résultats s'ils existent */}
-      {calculationResults && <SimulationResults results={calculationResults} />}
+      {calculationResults && (
+        <SimulationResults 
+          results={calculationResults} 
+          stopLoss={formData.stopLoss}
+          gainTarget={formData.gainTarget}
+          makerFee={formData.makerFee}
+          fundingFee={formData.fundingFee}
+          duration={formData.duration}
+          leverage={formData.leverage}
+        />
+      )}
 
       {/* Bouton de simulation */}
       <div className="mt-6">

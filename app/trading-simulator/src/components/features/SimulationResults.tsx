@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import TradeDetailsTable from './TradeDetailsTable';
 
 // Type pour les résultats des calculs
 interface CalculationResults {
@@ -12,13 +13,28 @@ interface CalculationResults {
   totalFees: number;
   riskRewardRatio: number;
   entryPrices: number[];
+  variant: 'manual' | 'calculated'; // Mode de calcul utilisé
 }
 
 interface SimulationResultsProps {
   results: CalculationResults;
+  stopLoss: number; // Ajout du stop-loss pour le tableau de détails
+  gainTarget: number; // Ajout du gain cible pour le tableau de détails
+  makerFee: number; // Ajout des frais maker pour le tableau de détails
+  fundingFee: number; // Ajout des frais de financement pour le tableau de détails
+  duration: number; // Ajout de la durée pour le tableau de détails
+  leverage: number; // Ajout du levier pour le calcul du prix de liquidation
 }
 
-const SimulationResults: React.FC<SimulationResultsProps> = ({ results }) => {
+const SimulationResults: React.FC<SimulationResultsProps> = ({ 
+  results, 
+  stopLoss, 
+  gainTarget, 
+  makerFee, 
+  fundingFee, 
+  duration,
+  leverage
+}) => {
   const { t } = useTranslation();
   
   return (
@@ -54,6 +70,21 @@ const SimulationResults: React.FC<SimulationResultsProps> = ({ results }) => {
           </p>
         </div>
       </div>
+      
+      {/* Afficher les détails des trades uniquement en mode manuel */}
+      {results.variant === 'manual' && results.entryPrices.length > 0 && (
+        <TradeDetailsTable 
+          entryPrices={results.entryPrices}
+          amountPerTrade={results.amountPerTrade}
+          stopLoss={stopLoss}
+          targetGain={gainTarget}
+          averageEntryPrice={results.averageEntryPrice}
+          makerFee={makerFee}
+          fundingFee={fundingFee}
+          duration={duration}
+          leverage={leverage}
+        />
+      )}
     </div>
   );
 };
