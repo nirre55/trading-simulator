@@ -30,10 +30,10 @@ const TradeDetailsTable: React.FC<TradeDetailsProps> = ({
   const targetPrice = averageEntryPrice * (1 + targetGain / 100);
   
   return (
-    <div className="mt-4">
+    <div className="mt-8">
       <h3 className="text-lg font-semibold mb-3">{t('sections.tradesDetail')}</h3>
       <div className="overflow-x-auto">
-        <table className="min-w-full bg-white dark:bg-slate-800 rounded-lg overflow-hidden">
+        <table className="min-w-full bg-white dark:bg-slate-800 rounded-lg overflow-hidden shadow">
           <thead className="bg-gray-200 dark:bg-slate-700">
             <tr>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">

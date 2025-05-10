@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import Input from '../ui/Input';
 import Label from '../ui/Label';
 import ErrorMessage from '../ui/ErrorMessage';
-import DropPercentageInputList from './DropPercentageInputList';
 import type { InputParameters } from '../../utils/types';
 
 const CalculatedEntryForm: React.FC<{
@@ -13,8 +12,40 @@ const CalculatedEntryForm: React.FC<{
 }> = ({ formData, errors, handleInputChange }) => {
   const { t } = useTranslation();
   
-  // Calculer le nombre de trades (égal au nombre de dropPercentages)
-  const totalTrades = formData.dropPercentages ? formData.dropPercentages.length : 0;
+  // Calcul du nombre de trades en fonction du prix initial, du pourcentage de baisse et du stop-loss
+  const calculateNumberOfTrades = () => {
+    const initialPrice = formData.initialEntryPrice || 0;
+    const dropPercentage = formData.dropPercentage || 0;
+    const stopLoss = formData.stopLoss || 0;
+    
+    if (initialPrice <= 0 || dropPercentage <= 0 || stopLoss <= 0) {
+      return 0;
+    }
+    
+    // Commencer avec 1 pour inclure le prix initial
+    let count = 1;
+    let price = initialPrice;
+    
+    // Compter combien de trades sont nécessaires pour atteindre le stop-loss
+    while (true) {
+      price = price * (1 - dropPercentage / 100);
+      
+      // Si le prix passe sous le stop-loss, on ajoute ce dernier trade
+      // et on arrête de compter
+      if (price <= stopLoss) {
+        count++;
+        break;
+      }
+      
+      count++;
+      if (count > 99) break; // Limite de sécurité
+    }
+    
+    return count;
+  };
+  
+  // Calcul du nombre de trades effectifs
+  const totalTrades = calculateNumberOfTrades();
   
   return (
     <div className="mt-8">
@@ -30,7 +61,13 @@ const CalculatedEntryForm: React.FC<{
             disabled
             className="bg-gray-100 dark:bg-gray-700"
           />
-          <p className="text-xs text-gray-500 mt-1 italic">{t('fields.autoDropTradesCount')}</p>
+          <p className="text-xs text-gray-500 mt-1 italic">
+            {t('fields.autoCalculatedTradesCount')}
+            <br />
+            {t('fields.tradesStopLossNote')}
+            <br />
+            {t('fields.includesLastTrade')}
+          </p>
         </div>
         <div>
           <Label htmlFor="initialPrice">{t('fields.initialPrice')}</Label>
@@ -58,24 +95,34 @@ const CalculatedEntryForm: React.FC<{
           )}
         </div>
         <div>
-          <Label htmlFor="dropPercentage">{t('fields.dropPercentage')}</Label>
-          <DropPercentageInputList
-            buttonText={t('buttons.addDropPercentage')}
-            symbol="%"
-            values={formData.dropPercentages!}
-            onChange={(values) =>
-              handleInputChange('dropPercentages', values)
-            }
-            errors={formData.dropPercentages?.map((_, idx) =>
-              errors[`dropPercentage${idx}`]
-                ? t('errors.percentageOutOfRange')
-                : errors.dropPercentages === 'tooManyPercentages'
-                ? t('errors.tooManyPercentages')
-                : errors.dropPercentages === 'insufficientPerTrade'
-                ? t('errors.insufficientPerTrade')
-                : ''
-            )}
-          />
+          <Label htmlFor="dropPercentage">{t('fields.dropPercentage')} (%)</Label>
+          <div className="relative">
+            <Input
+              id="dropPercentage"
+              type="number"
+              value={formData.dropPercentage}
+              onChange={(e) =>
+                handleInputChange('dropPercentage', Number(e.target.value))
+              }
+              aria-describedby={
+                errors.dropPercentage ? 'dropPercentage-error' : undefined
+              }
+              className={errors.dropPercentage ? 'border-red-400' : ''}
+            />
+            <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+              <span className="text-gray-500">%</span>
+            </div>
+          </div>
+          {errors.dropPercentage && (
+            <ErrorMessage
+              id="dropPercentage-error"
+              message={
+                errors.dropPercentage === 'percentageOutOfRange'
+                  ? t('errors.percentageOutOfRange')
+                  : ''
+              }
+            />
+          )}
         </div>
       </div>
     </div>

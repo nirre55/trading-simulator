@@ -48,7 +48,8 @@ const FormSection: React.FC = () => {
     numberOfTrades: 1,
     entryPrices: [100],
     initialEntryPrice: 100,
-    dropPercentages: [0],
+    dropPercentage: 50,    // Valeur par défaut pour le pourcentage de baisse unique
+    dropPercentages: [],  // Gardé pour compatibilité avec les tests existants
   });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [calculationResults, setCalculationResults] = useState<CalculationResults | null>(null);

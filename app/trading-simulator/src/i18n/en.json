@@ -33,6 +33,9 @@
     "numberOfTrades": "Number of Trades",
     "autoTradesCount": "Synchronized with the number of entry prices",
     "autoDropTradesCount": "Synchronized with the number of drop percentages",
+    "autoCalculatedTradesCount": "Automatically calculated from drop percentage",
+    "tradesStopLossNote": "Trades automatically stop if price becomes lower than stop-loss",
+    "includesLastTrade": "The last trade that exceeds the stop-loss is included in the simulation",
     "entryPrices": "Entry Prices",
     "initialPrice": "Initial Entry Price",
     "dropPercentage": "Drop Percentage"

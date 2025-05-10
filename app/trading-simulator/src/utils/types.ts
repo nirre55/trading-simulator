@@ -15,5 +15,7 @@ export interface InputParameters {
     entryPrices?: number[];
     // Variante 2
     initialEntryPrice?: number;
+    dropPercentage?: number;
+    // Gardons dropPercentages pour la compatibilité avec les tests existants
     dropPercentages?: number[];
   }

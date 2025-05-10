@@ -38,41 +38,45 @@ const SimulationResults: React.FC<SimulationResultsProps> = ({
   const { t } = useTranslation();
   
   return (
-    <div className="mt-6 p-4 bg-gray-100 dark:bg-slate-800 rounded-lg">
+    <div className="mt-8">
       <h3 className="text-lg font-semibold mb-3">{t('sections.results')}</h3>
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <p>
-            <span className="font-bold">{t('results.positionSize')}:</span> ${results.positionSize.toFixed(2)}
-          </p>
-          <p>
-            <span className="font-bold">{t('results.amountPerTrade')}:</span> ${results.amountPerTrade.toFixed(2)}
-          </p>
-          <p>
-            <span className="font-bold">{t('results.averageEntryPrice')}:</span> ${results.averageEntryPrice.toFixed(2)}
-          </p>
-          <p>
-            <span className="font-bold">{t('results.numberOfTrades')}:</span> {results.numberOfTrades}
-          </p>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="bg-white dark:bg-slate-800 p-4 rounded-lg shadow">
+          <p className="text-sm text-gray-500 dark:text-gray-400">{t('results.positionSize')}</p>
+          <p className="text-xl font-bold">${results.positionSize.toFixed(2)}</p>
         </div>
-        <div>
-          <p>
-            <span className="font-bold">{t('results.riskTotal')}:</span> ${results.riskTotal.toFixed(2)}
-          </p>
-          <p>
-            <span className="font-bold">{t('results.profitTarget')}:</span> ${results.profitTarget.toFixed(2)}
-          </p>
-          <p>
-            <span className="font-bold">{t('results.totalFees')}:</span> ${results.totalFees.toFixed(2)}
-          </p>
-          <p>
-            <span className="font-bold">{t('results.riskRewardRatio')}:</span> {results.riskRewardRatio.toFixed(2)}
-          </p>
+        <div className="bg-white dark:bg-slate-800 p-4 rounded-lg shadow">
+          <p className="text-sm text-gray-500 dark:text-gray-400">{t('results.numberOfTrades')}</p>
+          <p className="text-xl font-bold">{results.numberOfTrades}</p>
+        </div>
+        <div className="bg-white dark:bg-slate-800 p-4 rounded-lg shadow">
+          <p className="text-sm text-gray-500 dark:text-gray-400">{t('results.amountPerTrade')}</p>
+          <p className="text-xl font-bold">${results.amountPerTrade.toFixed(2)}</p>
+        </div>
+        <div className="bg-white dark:bg-slate-800 p-4 rounded-lg shadow">
+          <p className="text-sm text-gray-500 dark:text-gray-400">{t('results.averageEntryPrice')}</p>
+          <p className="text-xl font-bold">${results.averageEntryPrice.toFixed(2)}</p>
+        </div>
+        <div className="bg-white dark:bg-slate-800 p-4 rounded-lg shadow">
+          <p className="text-sm text-gray-500 dark:text-gray-400">{t('results.riskTotal')}</p>
+          <p className="text-xl font-bold">${results.riskTotal.toFixed(2)}</p>
+        </div>
+        <div className="bg-white dark:bg-slate-800 p-4 rounded-lg shadow">
+          <p className="text-sm text-gray-500 dark:text-gray-400">{t('results.profitTarget')}</p>
+          <p className="text-xl font-bold">${results.profitTarget.toFixed(2)}</p>
+        </div>
+        <div className="bg-white dark:bg-slate-800 p-4 rounded-lg shadow">
+          <p className="text-sm text-gray-500 dark:text-gray-400">{t('results.totalFees')}</p>
+          <p className="text-xl font-bold">${results.totalFees.toFixed(2)}</p>
+        </div>
+        <div className="bg-white dark:bg-slate-800 p-4 rounded-lg shadow">
+          <p className="text-sm text-gray-500 dark:text-gray-400">{t('results.riskRewardRatio')}</p>
+          <p className="text-xl font-bold">{results.riskRewardRatio.toFixed(2)}</p>
         </div>
       </div>
       
-      {/* Afficher les détails des trades uniquement en mode manuel */}
-      {results.variant === 'manual' && results.entryPrices.length > 0 && (
+      {/* Afficher les détails des trades dans les deux modes */}
+      {results.entryPrices.length > 0 && (
         <TradeDetailsTable 
           entryPrices={results.entryPrices}
           amountPerTrade={results.amountPerTrade}

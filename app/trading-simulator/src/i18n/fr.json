@@ -33,6 +33,9 @@
     "numberOfTrades": "Nombre de trades",
     "autoTradesCount": "Synchronisé avec le nombre de prix d'entrée",
     "autoDropTradesCount": "Synchronisé avec le nombre de pourcentages de baisse",
+    "autoCalculatedTradesCount": "Calculé automatiquement à partir du pourcentage de baisse",
+    "tradesStopLossNote": "Les trades s'arrêtent automatiquement si le prix devient inférieur au stop-loss",
+    "includesLastTrade": "Le dernier trade qui dépasse le stop-loss est inclus dans la simulation",
     "entryPrices": "Prix d'entrée",
     "initialPrice": "Prix d'entrée initial",
     "dropPercentage": "Pourcentage de baisse"

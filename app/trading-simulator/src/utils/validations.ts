@@ -34,22 +34,36 @@ export const validateVariant1 = (params: InputParameters) => {
 
 export const validateVariant2 = (params: InputParameters) => {
   const errors: { [key: string]: string } = {};
+  
+  // Validation du prix initial
   if (params.initialEntryPrice! <= params.stopLoss) {
     errors.initialEntryPrice = 'initialPriceTooLow';
   }
   if (params.initialEntryPrice! <= 0) {
     errors.initialEntryPrice = 'initialPriceNegative';
   }
-  if (params.dropPercentages!.length > 99) {
-    errors.dropPercentages = 'tooManyPercentages';
-  }
-  if (params.dropPercentages!.length > 0 && (params.balance * params.leverage) / (params.dropPercentages!.length + 1) < 100) {
-    errors.dropPercentages = 'insufficientPerTrade';
-  }
-  params.dropPercentages?.forEach((percent, index) => {
-    if (percent <= 0 || percent >= 100) {
-      errors[`dropPercentage${index}`] = 'percentageOutOfRange';
+  
+  // Validation du pourcentage de baisse unique
+  if (params.dropPercentage !== undefined) {
+    if (params.dropPercentage <= 0 || params.dropPercentage >= 100) {
+      errors.dropPercentage = 'percentageOutOfRange';
     }
-  });
+  }
+  
+  // Pour la compatibilité avec les tests existants qui utilisent dropPercentages
+  if (params.dropPercentages && params.dropPercentages.length > 0) {
+    if (params.dropPercentages.length > 99) {
+      errors.dropPercentages = 'tooManyPercentages';
+    }
+    if ((params.balance * params.leverage) / (params.dropPercentages.length + 1) < 100) {
+      errors.dropPercentages = 'insufficientPerTrade';
+    }
+    params.dropPercentages.forEach((percent, index) => {
+      if (percent <= 0 || percent >= 100) {
+        errors[`dropPercentage${index}`] = 'percentageOutOfRange';
+      }
+    });
+  }
+  
   return errors;
 };
