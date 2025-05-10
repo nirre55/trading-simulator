@@ -7,6 +7,7 @@ interface CalculationResults {
   positionSize: number;
   numberOfTrades: number;
   amountPerTrade: number;
+  realAmountPerTrade: number; // Montant réel par trade (sans levier)
   averageEntryPrice: number;
   riskTotal: number;
   profitTarget: number;
@@ -54,6 +55,10 @@ const SimulationResults: React.FC<SimulationResultsProps> = ({
           <p className="text-xl font-bold">${results.amountPerTrade.toFixed(2)}</p>
         </div>
         <div className="bg-white dark:bg-slate-800 p-4 rounded-lg shadow">
+          <p className="text-sm text-gray-500 dark:text-gray-400">{t('results.realAmountPerTrade')}</p>
+          <p className="text-xl font-bold">${results.realAmountPerTrade.toFixed(2)}</p>
+        </div>
+        <div className="bg-white dark:bg-slate-800 p-4 rounded-lg shadow">
           <p className="text-sm text-gray-500 dark:text-gray-400">{t('results.averageEntryPrice')}</p>
           <p className="text-xl font-bold">${results.averageEntryPrice.toFixed(2)}</p>
         </div>
@@ -79,7 +84,7 @@ const SimulationResults: React.FC<SimulationResultsProps> = ({
       {results.entryPrices.length > 0 && (
         <TradeDetailsTable 
           entryPrices={results.entryPrices}
-          amountPerTrade={results.amountPerTrade}
+          amountPerTrade={results.realAmountPerTrade}
           stopLoss={stopLoss}
           targetGain={gainTarget}
           averageEntryPrice={results.averageEntryPrice}

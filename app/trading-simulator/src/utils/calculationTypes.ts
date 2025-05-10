@@ -5,6 +5,7 @@ export interface CalculationResults {
   positionSize: number; // Taille Totale de la Position ($)
   numberOfTrades: number; // Nombre de Trades
   amountPerTrade: number; // Montant par Trade ($)
+  realAmountPerTrade: number; // Montant réel par Trade (sans levier) ($)
   averageEntryPrice: number; // Prix Moyen d'Entrée ($)
   riskTotal: number; // Risque Total ($)
   profitTarget: number; // Profit Cible ($)
@@ -19,6 +20,7 @@ export const defaultResults = (variant: 'manual' | 'calculated'): CalculationRes
   positionSize: 0,
   numberOfTrades: 0,
   amountPerTrade: 0,
+  realAmountPerTrade: 0,
   averageEntryPrice: 0,
   riskTotal: 0,
   profitTarget: 0,

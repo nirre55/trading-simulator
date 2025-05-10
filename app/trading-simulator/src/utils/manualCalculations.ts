@@ -27,6 +27,7 @@ export const calculateManualResults = (params: InputParameters): CalculationResu
   // Étape 2 : Calculs Communs
   const positionSize = params.balance * params.leverage;
   const amountPerTrade = positionSize / numberOfTrades;
+  const realAmountPerTrade = params.balance / numberOfTrades; // Montant réel sans levier
   
   // Calculer le prix moyen d'entrée
   const averageEntryPrice = calculateAverageEntryPrice(entryPrices);
@@ -58,6 +59,7 @@ export const calculateManualResults = (params: InputParameters): CalculationResu
     positionSize,
     numberOfTrades,
     amountPerTrade,
+    realAmountPerTrade,
     averageEntryPrice,
     riskTotal,
     profitTarget,

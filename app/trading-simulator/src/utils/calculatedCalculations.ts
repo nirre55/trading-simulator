@@ -32,6 +32,7 @@ export const calculateCalculatedResults = (params: InputParameters): Calculation
         positionSize: 5000,
         numberOfTrades: 2,
         amountPerTrade: 2500,
+        realAmountPerTrade: 500,
         averageEntryPrice: 16200,
         riskTotal: 312.5,
         profitTarget: 2593.75,
@@ -50,6 +51,7 @@ export const calculateCalculatedResults = (params: InputParameters): Calculation
         positionSize: 5000,
         numberOfTrades: 1,
         amountPerTrade: 5000,
+        realAmountPerTrade: 1000,
         averageEntryPrice: 18000,
         riskTotal: 416.67,
         profitTarget: 2500,
@@ -70,6 +72,7 @@ export const calculateCalculatedResults = (params: InputParameters): Calculation
         positionSize: 5000,
         numberOfTrades: 3,
         amountPerTrade: 1666.67,
+        realAmountPerTrade: 333.33,
         averageEntryPrice: 29.17,
         riskTotal: 278.33,
         profitTarget: 2500,
@@ -89,6 +92,7 @@ export const calculateCalculatedResults = (params: InputParameters): Calculation
         positionSize: 5000,
         numberOfTrades: 3,
         amountPerTrade: 1666.67,
+        realAmountPerTrade: 333.33,
         averageEntryPrice: 16260,
         riskTotal: 388.89,
         profitTarget: 2500,
@@ -151,6 +155,7 @@ export const calculateCalculatedResults = (params: InputParameters): Calculation
   // Étape 2 : Calculs Communs
   const positionSize = params.balance * params.leverage;
   const amountPerTrade = positionSize / numberOfTrades;
+  const realAmountPerTrade = params.balance / numberOfTrades;
   
   // Calculer le prix moyen d'entrée
   const averageEntryPrice = calculateAverageEntryPrice(entryPrices);
@@ -182,6 +187,7 @@ export const calculateCalculatedResults = (params: InputParameters): Calculation
     positionSize,
     numberOfTrades,
     amountPerTrade,
+    realAmountPerTrade,
     averageEntryPrice,
     riskTotal,
     profitTarget,

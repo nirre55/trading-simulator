@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 interface TradeDetailsProps {
   entryPrices: number[];
-  amountPerTrade: number;
+  amountPerTrade: number; // C'est maintenant le montant réel (sans levier)
   stopLoss: number;
   targetGain: number;
   averageEntryPrice: number;
@@ -15,7 +15,7 @@ interface TradeDetailsProps {
 
 const TradeDetailsTable: React.FC<TradeDetailsProps> = ({
   entryPrices,
-  amountPerTrade,
+  amountPerTrade, // Montant réel sans levier
   stopLoss,
   targetGain,
   averageEntryPrice,
@@ -28,6 +28,9 @@ const TradeDetailsTable: React.FC<TradeDetailsProps> = ({
   
   // Prix cible basé sur le gain cible et le prix moyen d'entrée
   const targetPrice = averageEntryPrice * (1 + targetGain / 100);
+
+  // Calcul du montant avec levier pour chaque trade
+  const leveragedAmountPerTrade = amountPerTrade * leverage;
   
   return (
     <div className="mt-8">
@@ -43,7 +46,10 @@ const TradeDetailsTable: React.FC<TradeDetailsProps> = ({
                 {t('tradeTable.entryPrice')}
               </th>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">
-                {t('tradeTable.amount')}
+                {t('tradeTable.realAmount')}
+              </th>
+              <th className="px-4 py-2 text-left text-xs font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">
+                {t('tradeTable.leveragedAmount')}
               </th>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">
                 {t('tradeTable.cryptoAmount')}
@@ -67,14 +73,14 @@ const TradeDetailsTable: React.FC<TradeDetailsProps> = ({
           </thead>
           <tbody className="divide-y divide-gray-200 dark:divide-slate-600">
             {entryPrices.map((price, index) => {
-              // Calcul du montant en crypto pour ce trade
-              const cryptoAmount = amountPerTrade / price;
+              // Utiliser le montant avec levier pour le calcul de la quantité crypto
+              const cryptoAmount = leveragedAmountPerTrade / price;
               
               // Calcul du prix de sortie pour ce trade (basé sur le prix d'entrée et le gain cible)
               const exitPrice = price * (1 + targetGain / 100);
               
-              // Calcul du profit potentiel pour ce trade
-              const profit = amountPerTrade * (targetGain / 100);
+              // Calcul du profit potentiel pour ce trade (basé sur le montant avec levier)
+              const profit = leveragedAmountPerTrade * (targetGain / 100);
               
               // Calcul du risque (perte) potentiel pour ce trade
               const risk = (price - stopLoss) * cryptoAmount;
@@ -83,8 +89,9 @@ const TradeDetailsTable: React.FC<TradeDetailsProps> = ({
               const riskRewardRatio = risk > 0 ? profit / risk : 0;
               
               // Calcul des frais pour ce trade (maker pour ouverture et fermeture + frais de financement)
-              const fees = (amountPerTrade * (makerFee / 100) * 2) + 
-                           (amountPerTrade * (fundingFee / 100) * duration);
+              // Utiliser le montant avec levier pour le calcul des frais
+              const fees = (leveragedAmountPerTrade * (makerFee / 100) * 2) + 
+                           (leveragedAmountPerTrade * (fundingFee / 100) * duration);
               
               // Calcul du prix de liquidation selon la formule: liquidationPrice = entryPrice * (1 - 1/leverage)
               const liquidationPrice = price * (1 - 1/leverage);
@@ -94,6 +101,7 @@ const TradeDetailsTable: React.FC<TradeDetailsProps> = ({
                   <td className="px-4 py-2 whitespace-nowrap">{index + 1}</td>
                   <td className="px-4 py-2 whitespace-nowrap">${price.toFixed(2)}</td>
                   <td className="px-4 py-2 whitespace-nowrap">${amountPerTrade.toFixed(2)}</td>
+                  <td className="px-4 py-2 whitespace-nowrap">${leveragedAmountPerTrade.toFixed(2)}</td>
                   <td className="px-4 py-2 whitespace-nowrap">{cryptoAmount.toFixed(6)}</td>
                   <td className="px-4 py-2 whitespace-nowrap">${liquidationPrice.toFixed(2)}</td>
                   <td className="px-4 py-2 whitespace-nowrap">${exitPrice.toFixed(2)}</td>
