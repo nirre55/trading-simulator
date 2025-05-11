@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
-import { calculateManualResults } from '../src/utils/manualCalculations';
-import type { InputParameters } from '../src/utils/types';
+import { calculateManualResults } from '../../src/utils/manualCalculations';
+import type { InputParameters } from '../../src/utils/types';
 
 describe('manualCalculations', () => {
   // Paramètres de base pour les tests
@@ -150,6 +150,40 @@ describe('manualCalculations', () => {
       
       expect(results.positionSize).toBe(100000000);
       expect(results.variant).toBe('manual');
+    });
+
+    // Tests pour la récupération de perte
+    test('devrait calculer correctement avec récupération de perte', () => {
+      const params: InputParameters = {
+        ...baseParams,
+        recovery: true,
+        entryPrices: [100, 90, 80],
+        numberOfTrades: 3,
+        balance: 1000,
+        leverage: 10,
+        gainTarget: 100,
+      };
+
+      const results = calculateManualResults(params);
+      
+      // Vérifie que les détails des trades sont calculés
+      expect(results.tradeDetails).toBeDefined();
+      expect(results.tradeDetails?.length).toBe(3);
+      
+      // Vérifie que les calculs avec récupération sont corrects
+      if (results.tradeDetails) {
+        // Premier trade: pas de récupération
+        expect(results.tradeDetails[0].profit).toBeCloseTo(3333.33, 1); // amountPerTrade * (gainTarget / 100)
+        expect(results.tradeDetails[0].targetPrice).toBe(200); // prix double avec 100% de gain
+        
+        // Deuxième trade: récupération de la perte du premier trade
+        expect(results.tradeDetails[1].profit).toBeCloseTo(3666.66, 1); // 3333.33 + 333.33
+        expect(results.tradeDetails[1].targetPrice).toBeCloseTo(189, 0); // 90 + (90 * 3666.66 / 3333.33)
+        
+        // Troisième trade: récupération des pertes des deux premiers trades
+        expect(results.tradeDetails[2].profit).toBeCloseTo(3999.99, 1); // 3333.33 + 333.33 * 2
+        expect(results.tradeDetails[2].targetPrice).toBeCloseTo(176, 0); // 80 + (80 * 3999.99 / 3333.33)
+      }
     });
   });
 }); 

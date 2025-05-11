@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
-import { calculateCalculatedResults } from '../src/utils/calculatedCalculations';
-import type { InputParameters } from '../src/utils/types';
+import { calculateCalculatedResults } from '../../src/utils/calculatedCalculations';
+import type { InputParameters } from '../../src/utils/types';
 
 describe('calculatedCalculations', () => {
   // Paramètres de base pour les tests
@@ -157,6 +157,123 @@ describe('calculatedCalculations', () => {
       // Pour 14580: (14580-15000) * (amountPerTrade/14580) = négatif
       expect(results.riskTotal).toBeGreaterThan(0); // Le risque total devrait toujours être positif
       expect(results.variant).toBe('calculated');
+    });
+
+    // Test du nouveau code avec un seul pourcentage de baisse
+    test('devrait calculer correctement avec un seul pourcentage de baisse', () => {
+      const params: InputParameters = {
+        ...baseParams,
+        initialEntryPrice: 20000,
+        stopLoss: 15000,
+        dropPercentage: 10, // Un seul pourcentage
+      };
+
+      const results = calculateCalculatedResults(params);
+
+      // Prix calculés
+      // initialPrice = 20000
+      // Premier prix: 20000 (prix initial)
+      // Deuxième prix: 20000 * 0.9 = 18000
+      // Troisième prix: 18000 * 0.9 = 16200
+      // Quatrième prix: 16200 * 0.9 = 14580 (sous le stop-loss, donc non inclus)
+      
+      expect(results.entryPrices).toContain(20000); // Contient le prix initial
+      expect(results.entryPrices).toContain(18000); // Premier prix calculé
+      expect(results.entryPrices).toContain(16200); // Deuxième prix calculé
+      expect(results.entryPrices).toContain(14580); // Devrait inclure le prix qui passe sous le stop-loss
+      expect(results.numberOfTrades).toBe(4); // Nombre de prix calculés
+
+      // Vérification des calculs généraux
+      expect(results.positionSize).toBe(5000); // 1000 * 5
+      expect(results.amountPerTrade).toBe(5000 / 4); // Divisé par le nombre de trades
+      expect(results.variant).toBe('calculated');
+    });
+    
+    // Test avec pourcentage de baisse très faible pour générer beaucoup de prix
+    test('devrait limiter le nombre de prix calculés même avec un pourcentage de baisse très faible', () => {
+      const params: InputParameters = {
+        ...baseParams,
+        initialEntryPrice: 20000,
+        stopLoss: 100, // Stop loss très bas pour permettre beaucoup d'entrées
+        dropPercentage: 1, // Pourcentage très faible
+      };
+
+      const results = calculateCalculatedResults(params);
+      
+      // On s'attend à ce que la limite de sécurité évite une boucle infinie
+      expect(results.entryPrices.length).toBeLessThanOrEqual(99); // Limité par la sécurité
+      expect(results.variant).toBe('calculated');
+    });
+    
+    // Test du cas où initialEntryPrice est 0 avec un dropPercentage défini
+    test('devrait retourner des valeurs par défaut quand initialEntryPrice est 0', () => {
+      const params: InputParameters = {
+        ...baseParams,
+        initialEntryPrice: 0,
+        dropPercentage: 10,
+      };
+      
+      const results = calculateCalculatedResults(params);
+
+      expect(results.positionSize).toBe(0);
+      expect(results.numberOfTrades).toBe(0);
+      expect(results.entryPrices).toEqual([]);
+      expect(results.variant).toBe('calculated');
+    });
+    
+    // Test du cas où dropPercentage est 0 avec un initialEntryPrice défini
+    test('devrait retourner des valeurs par défaut quand dropPercentage est 0', () => {
+      const params: InputParameters = {
+        ...baseParams,
+        initialEntryPrice: 20000,
+        dropPercentage: 0,
+      };
+      
+      const results = calculateCalculatedResults(params);
+
+      expect(results.positionSize).toBe(0);
+      expect(results.numberOfTrades).toBe(0);
+      expect(results.entryPrices).toEqual([]);
+      expect(results.variant).toBe('calculated');
+    });
+
+    // Tests pour la récupération de perte
+    test('devrait calculer correctement avec récupération de perte', () => {
+      const params: InputParameters = {
+        ...baseParams,
+        recovery: true,
+        initialEntryPrice: 100,
+        stopLoss: 20,
+        dropPercentage: 50,
+        balance: 1000,
+        leverage: 10,
+        gainTarget: 100
+      };
+
+      const results = calculateCalculatedResults(params);
+      
+      // Vérifie que les détails des trades sont calculés
+      expect(results.tradeDetails).toBeDefined();
+      expect(results.tradeDetails?.length).toBe(4); // Inclut le prix initial et 3 baisses (100, 50, 25, 12.5)
+      
+      // Vérifie que les calculs avec récupération sont corrects
+      if (results.tradeDetails) {
+        // Premier trade: pas de récupération
+        expect(results.tradeDetails[0].profit).toBe(2500); // amountPerTrade * (gainTarget / 100)
+        expect(results.tradeDetails[0].targetPrice).toBe(200); // prix double avec 100% de gain
+        
+        // Deuxième trade: récupération de la perte du premier trade
+        expect(results.tradeDetails[1].profit).toBe(2750); // 2500 + 250
+        expect(results.tradeDetails[1].targetPrice).toBe(105); // 50 + (50 * 2750 / 2500)
+        
+        // Troisième trade: récupération des pertes des deux premiers trades
+        expect(results.tradeDetails[2].profit).toBe(3000); // 2500 + 250 * 2
+        expect(results.tradeDetails[2].targetPrice).toBe(55); // 25 + (25 * 3000 / 2500)
+        
+        // Quatrième trade: récupération des pertes des trois premiers trades
+        expect(results.tradeDetails[3].profit).toBe(3250); // 2500 + 250 * 3
+        expect(results.tradeDetails[3].targetPrice).toBeCloseTo(28.75, 2); // 12.5 + (12.5 * 3250 / 2500)
+      }
     });
   });
 }); 

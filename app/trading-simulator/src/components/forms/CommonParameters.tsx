@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Input, Label, Select, Checkbox, ErrorMessage } from '../ui';
+import { Input, Label, Checkbox, ErrorMessage, RangeInput } from '../ui';
 import FeesInputGroup from './FeesInputGroup';
 import { type InputParameters } from '../../utils';
 
@@ -8,8 +8,7 @@ const CommonParameters: React.FC<{
   formData: InputParameters;
   errors: { [key: string]: string };
   handleInputChange: (field: keyof InputParameters, value: any) => void;
-  handleLeverageChange: (value: string) => void;
-}> = ({ formData, errors, handleInputChange, handleLeverageChange }) => {
+}> = ({ formData, errors, handleInputChange }) => {
   const { t } = useTranslation();
   
   return (
@@ -39,13 +38,20 @@ const CommonParameters: React.FC<{
         </div>
 
         <div>
-          <Label htmlFor="leverage">{t('fields.leverage')}</Label>
-          <Select
-            id="leverage"
-            options={['1x', '5x', '10x', '50x', '100x']}
-            value={`${formData.leverage}x`}
-            onChange={(e) => handleLeverageChange(e.target.value)}
-          />
+          <Label htmlFor="leverage">{t('fields.leverage')} ({formData.leverage}x)</Label>
+          <div className="flex items-center space-x-2 w-full bg-slate-100 dark:bg-slate-800 rounded p-2">
+            <RangeInput
+              id="leverage"
+              min={1}
+              max={125}
+              step={1}
+              value={formData.leverage}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputChange('leverage', Number(e.target.value))}
+              aria-describedby={errors.leverage ? 'leverage-error' : undefined}
+              className={`flex-grow ${errors.leverage ? 'border-red-400' : ''}`}
+            />
+            <span className="font-semibold text-sm min-w-[40px] text-right">{formData.leverage}x</span>
+          </div>
           {errors.leverage && (
             <ErrorMessage
               id="leverage-error"

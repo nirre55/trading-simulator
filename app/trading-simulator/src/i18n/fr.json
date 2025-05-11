@@ -6,7 +6,9 @@
     "simulate": "Simuler",
     "reset": "Réinitialiser",
     "lossRecovery": "Récupération des pertes",
-    "simulationComplete": "Simulation terminée avec succès !"
+    "simulationComplete": "Simulation terminée avec succès !",
+    "withRecovery": "avec Récupération",
+    "withoutRecovery": "sans Récupération"
   },
   "tabs": {
     "manual": "Points d'entrée manuels",
@@ -93,6 +95,7 @@
     "liquidationPrice": "Prix de Liquidation",
     "exitPrice": "Prix de Sortie",
     "profit": "Profit",
+    "adjustedGain": "Gain Ajusté %",
     "fees": "Frais",
     "riskRewardRatio": "Ratio Risque/Récompense"
   }

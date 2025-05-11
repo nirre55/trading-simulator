@@ -6,7 +6,8 @@ import {
   calculateRiskTotal,
   calculateProfitTarget,
   calculateTotalFees,
-  calculateRiskRewardRatio
+  calculateRiskRewardRatio,
+  calculateTradeDetails
 } from './calculationTypes';
 
 /**
@@ -54,6 +55,20 @@ export const calculateManualResults = (params: InputParameters): CalculationResu
 
   // Ratio Risque/Récompense
   const riskRewardRatio = calculateRiskRewardRatio(riskTotal, profitTarget);
+  
+  // Calcul des détails de chaque trade
+  const tradeDetails = calculateTradeDetails(
+    entryPrices,
+    params.stopLoss,
+    params.leverage,
+    amountPerTrade,
+    realAmountPerTrade,
+    params.gainTarget,
+    params.makerFee,
+    params.fundingFee,
+    params.duration,
+    params.recovery
+  );
 
   return {
     positionSize,
@@ -66,6 +81,7 @@ export const calculateManualResults = (params: InputParameters): CalculationResu
     totalFees,
     riskRewardRatio,
     entryPrices,
-    variant: 'manual'
+    variant: 'manual',
+    tradeDetails
   };
 }; 

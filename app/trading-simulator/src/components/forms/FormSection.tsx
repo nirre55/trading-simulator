@@ -13,7 +13,8 @@ import {
   validateVariant1,
   validateVariant2,
   calculateResults,
-  type InputParameters
+  type InputParameters,
+  type TradeDetail
 } from '../../utils';
 
 // Type pour les résultats des calculs
@@ -21,6 +22,7 @@ interface CalculationResults {
   positionSize: number;
   numberOfTrades: number;
   amountPerTrade: number;
+  realAmountPerTrade: number;
   averageEntryPrice: number;
   riskTotal: number;
   profitTarget: number;
@@ -28,6 +30,7 @@ interface CalculationResults {
   riskRewardRatio: number;
   entryPrices: number[];
   variant: 'manual' | 'calculated';
+  tradeDetails?: TradeDetail[];
 }
 
 // Composant principal
@@ -132,11 +135,6 @@ const FormSection: React.FC = () => {
     }
   };
 
-  const handleLeverageChange = (value: string) => {
-    const numericValue = parseFloat(value.replace('x', '')) || 0;
-    handleInputChange('leverage', numericValue);
-  };
-
   return (
     <div className="max-w-3xl mx-auto bg-white dark:bg-slate-900 p-6 rounded-lg border border-gray-300 dark:border-slate-700">
       <Tabs active={activeTab} onChange={handleTabChange} />
@@ -145,7 +143,6 @@ const FormSection: React.FC = () => {
         formData={formData} 
         errors={errors} 
         handleInputChange={handleInputChange}
-        handleLeverageChange={handleLeverageChange}
       />
 
       {activeTab === 'manual' ? (
@@ -172,6 +169,7 @@ const FormSection: React.FC = () => {
           fundingFee={formData.fundingFee}
           duration={formData.duration}
           leverage={formData.leverage}
+          recovery={formData.recovery}
         />
       )}
 

@@ -1,4 +1,5 @@
-import type { InputParameters } from './types';
+// Nous n'avons pas besoin d'importer InputParameters ici
+// import type { InputParameters } from './types';
 
 // Interface pour les résultats des calculs
 export interface CalculationResults {
@@ -13,6 +14,20 @@ export interface CalculationResults {
   riskRewardRatio: number; // Ratio Risque/Récompense
   entryPrices: number[]; // Liste des Prix d'Entrée ($)
   variant: 'manual' | 'calculated'; // Mode de calcul utilisé
+  tradeDetails?: TradeDetail[]; // Détails de chaque trade individuel
+}
+
+// Interface pour les détails d'un trade individuel
+export interface TradeDetail {
+  tradeNumber: number; // Numéro du trade
+  entryPrice: number; // Prix d'entrée
+  liquidationPrice: number; // Prix de liquidation
+  targetPrice: number; // Prix de sortie
+  profit: number; // Profit potentiel
+  loss: number; // Perte potentielle
+  fees: number; // Frais
+  riskRewardRatio: number; // Ratio risque/récompense
+  adjustedGainTarget: number; // Gain cible ajusté en pourcentage
 }
 
 // Valeurs par défaut pour les résultats quand aucune donnée valide n'est fournie
@@ -27,7 +42,8 @@ export const defaultResults = (variant: 'manual' | 'calculated'): CalculationRes
   totalFees: 0,
   riskRewardRatio: 0,
   entryPrices: [],
-  variant
+  variant,
+  tradeDetails: []
 });
 
 // Fonction pour calculer le prix moyen d'entrée
@@ -81,4 +97,116 @@ export const calculateRiskRewardRatio = (
   profitTarget: number
 ): number => {
   return riskTotal > 0 ? profitTarget / riskTotal : 0;
+};
+
+// Fonction pour calculer les frais par trade
+export const calculateFeesPerTrade = (
+  amountPerTrade: number,
+  makerFee: number,
+  fundingFee: number,
+  duration: number
+): number => {
+  const makerFeePerTrade = amountPerTrade * (makerFee / 100) * 2; // Ouverture + Fermeture
+  const fundingFeePerTrade = amountPerTrade * (fundingFee / 100) * duration;
+  return makerFeePerTrade + fundingFeePerTrade;
+};
+
+// Fonction pour calculer le profit potentiel sans récupération de perte
+export const calculateProfitWithoutRecovery = (
+  tradeAmount: number,
+  gainTarget: number
+): number => {
+  return tradeAmount * (gainTarget / 100);
+};
+
+// Fonction pour calculer le profit potentiel avec récupération de perte
+export const calculateProfitWithRecovery = (
+  tradeAmount: number,
+  gainTarget: number,
+  baseTradeAmount: number,
+  tradeIndex: number
+): number => {
+  // Trade 1 : profit = tradeAmount * (gainTarget / 100)
+  // Trade n (n ≥ 2) : profit = tradeAmount * (gainTarget / 100) + baseTradeAmount * (n - 1)
+  if (tradeIndex === 0) {
+    return tradeAmount * (gainTarget / 100);
+  } else {
+    return tradeAmount * (gainTarget / 100) + baseTradeAmount * tradeIndex;
+  }
+};
+
+// Fonction pour calculer le prix de sortie
+export const calculateTargetPrice = (
+  entryPrice: number,
+  profit: number,
+  tradeAmount: number
+): number => {
+  if (tradeAmount === 0) return entryPrice; // Éviter la division par zéro
+  return entryPrice + (profit * entryPrice / tradeAmount);
+};
+
+// Fonction pour calculer le gain cible ajusté
+export const calculateAdjustedGainTarget = (
+  targetPrice: number,
+  entryPrice: number
+): number => {
+  if (entryPrice === 0) return 0; // Éviter la division par zéro
+  return ((targetPrice - entryPrice) / entryPrice) * 100;
+};
+
+// Fonction pour calculer les détails de chaque trade
+export const calculateTradeDetails = (
+  entryPrices: number[],
+  _stopLoss: number, // Préfixé avec underscore pour indiquer qu'il n'est pas utilisé
+  leverage: number,
+  amountPerTrade: number,
+  realAmountPerTrade: number,
+  gainTarget: number,
+  makerFee: number,
+  fundingFee: number,
+  duration: number,
+  recovery: boolean
+): TradeDetail[] => {
+  return entryPrices.map((entryPrice, index) => {
+    // Calcul du prix de liquidation
+    const liquidationPrice = entryPrice * (1 - 1/leverage);
+    
+    // Calcul de la perte par trade
+    const loss = realAmountPerTrade;
+    
+    // Calcul des frais par trade
+    const fees = calculateFeesPerTrade(amountPerTrade, makerFee, fundingFee, duration);
+    
+    // Calcul du profit et du prix de sortie en fonction du mode de récupération
+    let profit: number;
+    let targetPrice: number;
+    
+    if (recovery) {
+      // Avec récupération de perte
+      profit = calculateProfitWithRecovery(amountPerTrade, gainTarget, realAmountPerTrade, index);
+      targetPrice = calculateTargetPrice(entryPrice, profit, amountPerTrade);
+    } else {
+      // Sans récupération de perte
+      profit = calculateProfitWithoutRecovery(amountPerTrade, gainTarget);
+      targetPrice = calculateTargetPrice(entryPrice, profit, amountPerTrade);
+    }
+    
+    // Calcul du gain cible ajusté
+    const adjustedGainTarget = calculateAdjustedGainTarget(targetPrice, entryPrice);
+    
+    // Calcul du ratio risque/récompense
+    const riskRewardRatio = profit / loss;
+    
+    return {
+      tradeNumber: index + 1,
+      entryPrice,
+      liquidationPrice,
+      targetPrice,
+      profit,
+      loss,
+      fees,
+      riskRewardRatio,
+      adjustedGainTarget
+    };
+  });
 }; 

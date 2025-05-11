@@ -6,7 +6,9 @@
     "simulate": "Simulate",
     "reset": "Reset",
     "lossRecovery": "Loss Recovery",
-    "simulationComplete": "Simulation completed successfully!"
+    "simulationComplete": "Simulation completed successfully!",
+    "withRecovery": "with Recovery",
+    "withoutRecovery": "without Recovery"
   },
   "tabs": {
     "manual": "Manual Entry Points",
@@ -93,6 +95,7 @@
     "liquidationPrice": "Liquidation Price",
     "exitPrice": "Exit Price",
     "profit": "Profit",
+    "adjustedGain": "Adjusted Gain %",
     "fees": "Fees",
     "riskRewardRatio": "Risk/Reward Ratio"
   }

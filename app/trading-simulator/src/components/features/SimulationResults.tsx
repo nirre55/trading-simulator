@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import TradeDetailsTable from './TradeDetailsTable';
+import type { TradeDetail } from '../../utils/calculationTypes';
 
 // Type pour les résultats des calculs
 interface CalculationResults {
@@ -15,6 +16,7 @@ interface CalculationResults {
   riskRewardRatio: number;
   entryPrices: number[];
   variant: 'manual' | 'calculated'; // Mode de calcul utilisé
+  tradeDetails?: TradeDetail[]; // Détails de chaque trade individuel
 }
 
 interface SimulationResultsProps {
@@ -25,6 +27,7 @@ interface SimulationResultsProps {
   fundingFee: number; // Ajout des frais de financement pour le tableau de détails
   duration: number; // Ajout de la durée pour le tableau de détails
   leverage: number; // Ajout du levier pour le calcul du prix de liquidation
+  recovery: boolean; // Ajout du paramètre de récupération
 }
 
 const SimulationResults: React.FC<SimulationResultsProps> = ({ 
@@ -34,7 +37,8 @@ const SimulationResults: React.FC<SimulationResultsProps> = ({
   makerFee, 
   fundingFee, 
   duration,
-  leverage
+  leverage,
+  recovery
 }) => {
   const { t } = useTranslation();
   
@@ -84,14 +88,16 @@ const SimulationResults: React.FC<SimulationResultsProps> = ({
       {results.entryPrices.length > 0 && (
         <TradeDetailsTable 
           entryPrices={results.entryPrices}
-          amountPerTrade={results.realAmountPerTrade}
+          amountPerTrade={results.amountPerTrade}
+          realAmountPerTrade={results.realAmountPerTrade}
           stopLoss={stopLoss}
           targetGain={gainTarget}
-          averageEntryPrice={results.averageEntryPrice}
           makerFee={makerFee}
           fundingFee={fundingFee}
           duration={duration}
           leverage={leverage}
+          recovery={recovery}
+          tradeDetails={results.tradeDetails}
         />
       )}
     </div>

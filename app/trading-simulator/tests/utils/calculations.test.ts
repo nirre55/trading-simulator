@@ -1,5 +1,5 @@
-import { calculateResults } from '../src/utils/calculations';
-import type { InputParameters } from '../src/utils/types';
+import { calculateResults } from '../../src/utils/calculations';
+import type { InputParameters } from '../../src/utils/types';
 import { describe, expect, test } from 'vitest';
 
 describe('calculateResults (fonction principale)', () => {
@@ -52,6 +52,35 @@ describe('calculateResults (fonction principale)', () => {
       expect(results.variant).toBe('calculated');
       expect(results.numberOfTrades).toBe(2);
       expect(results.entryPrices).toEqual([18000, 14400]);
+    });
+  });
+
+  describe('Récupération de Perte', () => {
+    test('devrait gérer correctement le paramètre recovery', () => {
+      const params: InputParameters = {
+        ...baseParams,
+        entryPrices: [100, 90, 80],
+        numberOfTrades: 3,
+        recovery: true,
+        balance: 1000,
+        leverage: 10,
+        gainTarget: 100
+      };
+
+      const results = calculateResults(params, 'manual');
+
+      // Vérifie que les détails des trades sont calculés avec récupération
+      expect(results.tradeDetails).toBeDefined();
+      if (results.tradeDetails) {
+        // Premier trade: pas de récupération
+        expect(results.tradeDetails[0].profit).toBeCloseTo(3333.33, 1); // amountPerTrade * (gainTarget / 100)
+        
+        // Deuxième trade: récupération de la perte du premier trade
+        expect(results.tradeDetails[1].profit).toBeCloseTo(3666.66, 1); // 3333.33 + 333.33
+        
+        // Troisième trade: récupération des pertes des deux premiers trades
+        expect(results.tradeDetails[2].profit).toBeCloseTo(3999.99, 1); // 3333.33 + 333.33 * 2
+      }
     });
   });
 }); 
