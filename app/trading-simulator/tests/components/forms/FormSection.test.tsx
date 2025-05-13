@@ -20,6 +20,11 @@ vi.mock('react-toastify', () => ({
   }
 }));
 
+// Mock pour le composant TradeDetailsTable à l'intérieur de SimulationResults
+vi.mock('../../../src/components/features/TradeDetailsTable', () => ({
+  default: () => <div data-testid="trade-details-table">Trade Details Table</div>
+}));
+
 vi.mock('../../../src/utils', () => ({
   validateCommonParams: vi.fn(() => ({})),
   validateVariant1: vi.fn(() => ({})),
@@ -113,9 +118,9 @@ describe('FormSection Component', () => {
     // Vérifier que la fonction calculateResults a été appelée
     expect(calculateResults).toHaveBeenCalled();
     
-    // Attendre que les résultats s'affichent
+    // Attendre que le tableau de détails des trades s'affiche au lieu des résultats
     await waitFor(() => {
-      expect(screen.getByText('results.positionSize', { exact: false })).toBeInTheDocument();
+      expect(screen.getByTestId('trade-details-table')).toBeInTheDocument();
     });
   });
 
@@ -140,9 +145,9 @@ describe('FormSection Component', () => {
     // Vérifier que la fonction calculateResults a été appelée
     expect(calculateResults).toHaveBeenCalled();
     
-    // Attendre que les résultats s'affichent
+    // Attendre que le tableau de détails des trades s'affiche au lieu des résultats
     await waitFor(() => {
-      expect(screen.getByText('results.positionSize', { exact: false })).toBeInTheDocument();
+      expect(screen.getByTestId('trade-details-table')).toBeInTheDocument();
     });
   });
 

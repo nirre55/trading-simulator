@@ -6,13 +6,22 @@
     "simulate": "Simulate",
     "reset": "Reset",
     "lossRecovery": "Loss Recovery",
-    "simulationComplete": "Simulation completed successfully!",
+    "simulationComplete": "Simulation completed!",
     "withRecovery": "with Recovery",
     "withoutRecovery": "without Recovery"
   },
   "tabs": {
-    "manual": "Manual Entry Points",
-    "calculated": "Calculated Entry Points"
+    "manual": "Manual Entry",
+    "calculated": "Calculated Entry"
+  },
+  "navigation": {
+    "manual": "Manual Entry",
+    "calculated": "Calculated Entry",
+    "home": "Home"
+  },
+  "home": {
+    "manualDescription": "Set entry prices manually for your trading strategy",
+    "calculatedDescription": "Calculate entry prices based on drop percentages"
   },
   "sections": {
     "commonParameters": "Common Parameters",
@@ -65,10 +74,10 @@
     "tooManyPercentages": "Maximum 99 percentages."
   },
   "toasts": {
-    "insufficientPosition": "Unrealistic input: total position < $100.",
-    "insufficientPerTrade": "Insufficient balance: minimum of $100 required per trade.",
-    "leverageZero": "Leverage at 0: simulation not possible.",
-    "durationZero": "Duration at 0: funding fees ignored."
+    "insufficientPosition": "Insufficient balance for position size!",
+    "insufficientPerTrade": "Insufficient balance per trade!",
+    "leverageZero": "Leverage is set to zero!",
+    "durationZero": "Duration is set to zero!"
   },
   "buttons": {
     "addEntryPrice": "+ Add Entry Price",

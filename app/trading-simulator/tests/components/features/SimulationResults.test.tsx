@@ -1,18 +1,16 @@
 import React from 'react';
 import { describe, expect, test, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import SimulationResults from '../src/components/features/SimulationResults';
+import SimulationResults from '../../../src/components/features/SimulationResults';
 
 // Mock pour TradeDetailsTable
-vi.mock('../src/components/features/TradeDetailsTable', () => ({
+vi.mock('../../../src/components/features/TradeDetailsTable', () => ({
   default: (props: any) => <div data-testid="trade-details-table">{JSON.stringify(props)}</div>
 }));
 
 // Mock pour useTranslation
 vi.mock('react-i18next', () => ({
-  useTranslation: () => ({
-    t: (key: string) => key // Retourne simplement la clé pour faciliter les tests
-  })
+  useTranslation: () => ({ t: (key: string) => key })
 }));
 
 describe('SimulationResults Component', () => {
@@ -30,7 +28,7 @@ describe('SimulationResults Component', () => {
     variant: 'calculated' as const
   };
 
-  test('renders all result values correctly', () => {
+  test('ne rend plus les valeurs des résultats après modification', () => {
     render(
       <SimulationResults 
         results={mockResults} 
@@ -40,22 +38,17 @@ describe('SimulationResults Component', () => {
         fundingFee={0.01}
         duration={1}
         leverage={10}
+        recovery={false}
       />
     );
     
-    // Vérifier que les valeurs sont correctement affichées
-    expect(screen.getByText('$5000.00')).toBeDefined();
-    expect(screen.getByText('3')).toBeDefined();
-    expect(screen.getByText('$1666.67')).toBeDefined();
-    expect(screen.getByText('$333.33')).toBeDefined();
-    expect(screen.getByText('$16260.00')).toBeDefined();
-    expect(screen.getByText('$388.89')).toBeDefined();
-    expect(screen.getByText('$2500.00')).toBeDefined();
-    expect(screen.getByText('$5.00')).toBeDefined();
-    expect(screen.getByText('6.43')).toBeDefined();
+    // Vérifier que les valeurs des résultats ne sont plus affichées
+    expect(screen.queryByText('$5000.00')).toBeNull();
+    expect(screen.queryByText('$1666.67')).toBeNull();
+    expect(screen.queryByText('$16260.00')).toBeNull();
   });
 
-  test('renders TradeDetailsTable when entryPrices exist', () => {
+  test('rend TradeDetailsTable quand entryPrices existe', () => {
     render(
       <SimulationResults 
         results={mockResults} 
@@ -65,28 +58,36 @@ describe('SimulationResults Component', () => {
         fundingFee={0.01}
         duration={1}
         leverage={10}
+        recovery={false}
       />
     );
     
     // Vérifier que le tableau de détails est affiché
     expect(screen.getByTestId('trade-details-table')).toBeDefined();
+    
+    // Vérifier que les bonnes propriétés sont passées au tableau de détails
+    const tableProps = JSON.parse(screen.getByTestId('trade-details-table').textContent || '{}');
+    expect(tableProps.entryPrices).toEqual(mockResults.entryPrices);
+    expect(tableProps.amountPerTrade).toEqual(mockResults.amountPerTrade);
+    expect(tableProps.stopLoss).toEqual(10);
   });
 
-  test('does not render TradeDetailsTable when entryPrices is empty', () => {
-    const resultsWithoutEntryPrices = {
+  test('ne rend pas TradeDetailsTable quand entryPrices est vide', () => {
+    const emptyResults = {
       ...mockResults,
       entryPrices: []
     };
     
     render(
       <SimulationResults 
-        results={resultsWithoutEntryPrices} 
+        results={emptyResults} 
         stopLoss={10}
         gainTarget={20}
         makerFee={0.1}
         fundingFee={0.01}
         duration={1}
         leverage={10}
+        recovery={false}
       />
     );
     

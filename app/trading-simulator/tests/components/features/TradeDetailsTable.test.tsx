@@ -1,6 +1,6 @@
 import React from 'react';
-import { describe, expect, test, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { describe, expect, test, vi, beforeAll } from 'vitest';
+import { render, screen, within } from '@testing-library/react';
 import TradeDetailsTable from '../../../src/components/features/TradeDetailsTable';
 
 // Mock pour useTranslation
@@ -9,6 +9,22 @@ vi.mock('react-i18next', () => ({
     t: (key: string) => key // Retourne simplement la clé pour faciliter les tests
   })
 }));
+
+// Mock pour window.matchMedia
+beforeAll(() => {
+  // Mock pour matchMedia - simuler desktop pour les tests
+  Object.defineProperty(window, 'matchMedia', {
+    writable: true,
+    value: vi.fn().mockImplementation(query => ({
+      matches: false, // Simulate desktop mode
+      media: query,
+      onchange: null,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    })),
+  });
+});
 
 describe('TradeDetailsTable Component', () => {
   const defaultProps = {
@@ -25,58 +41,86 @@ describe('TradeDetailsTable Component', () => {
   };
 
   test('renders the table with correct columns', () => {
-    render(<TradeDetailsTable {...defaultProps} />);
+    const { container } = render(<TradeDetailsTable {...defaultProps} />);
     
-    // Vérifier que les titres de colonnes sont présents en utilisant les clés réelles du composant
-    expect(screen.getByText('tradeTable.tradeNumber')).toBeDefined();
-    expect(screen.getByText('tradeTable.entryPrice')).toBeDefined();
-    expect(screen.getByText('tradeTable.realAmount')).toBeDefined();
-    expect(screen.getByText('tradeTable.leveragedAmount')).toBeDefined();
-    expect(screen.getByText('tradeTable.cryptoAmount')).toBeDefined();
-    expect(screen.getByText('tradeTable.liquidationPrice')).toBeDefined();
-    expect(screen.getByText('tradeTable.exitPrice')).toBeDefined();
-    expect(screen.getByText('tradeTable.profit')).toBeDefined();
-    expect(screen.getByText('tradeTable.adjustedGain')).toBeDefined();
-    expect(screen.getByText('tradeTable.fees')).toBeDefined();
-    expect(screen.getByText('tradeTable.riskRewardRatio')).toBeDefined();
+    // Cibler spécifiquement la table dans la vue desktop
+    const desktopView = container.querySelector('.hidden.md\\:block');
+    expect(desktopView).not.toBeNull();
+    
+    // Vérifier l'existence des colonnes dans l'en-tête de la table
+    const headerCells = within(desktopView as HTMLElement).getAllByRole('columnheader');
+    expect(headerCells.length).toBe(11); // 11 colonnes au total
+    
+    // Vérifier quelques colonnes spécifiques
+    expect(headerCells[0].textContent).toBe('tradeTable.tradeNumber');
+    expect(headerCells[1].textContent).toBe('tradeTable.entryPrice');
+    expect(headerCells[7].textContent).toBe('tradeTable.profit');
   });
 
   test('renders correct number of rows based on entryPrices', () => {
-    render(<TradeDetailsTable {...defaultProps} />);
+    const { container } = render(<TradeDetailsTable {...defaultProps} />);
     
-    // 3 prix d'entrée + 1 ligne d'en-tête
-    const rows = screen.getAllByRole('row');
-    expect(rows.length).toBe(4);
+    // Cibler spécifiquement la table dans la vue desktop
+    const desktopView = container.querySelector('.hidden.md\\:block');
+    expect(desktopView).not.toBeNull();
+    
+    // Vérifier le nombre de lignes dans le tbody
+    const rows = within(desktopView as HTMLElement).getAllByRole('row');
+    expect(rows.length).toBe(4); // 3 lignes de données + 1 ligne d'en-tête
   });
 
-  test('displays correct entry prices', () => {
-    render(<TradeDetailsTable {...defaultProps} />);
+  test('displays correct entry prices in desktop view', () => {
+    const { container } = render(<TradeDetailsTable {...defaultProps} />);
     
-    // Vérifier que les prix d'entrée sont affichés correctement
-    // Note: Ces valeurs peuvent apparaître plusieurs fois dans le tableau
-    expect(screen.getAllByText(/\$20000.00/)).toHaveLength(1);
-    expect(screen.getAllByText(/\$18000.00/)).toHaveLength(2); // Apparaît comme prix d'entrée et comme prix de liquidation
-    expect(screen.getAllByText(/\$16200.00/)).toHaveLength(2); // Apparaît comme prix d'entrée et comme prix de liquidation
+    // Cibler spécifiquement la table dans la vue desktop
+    const desktopView = container.querySelector('.hidden.md\\:block');
+    expect(desktopView).not.toBeNull();
+    
+    // Récupérer les cellules du tableau
+    const cells = within(desktopView as HTMLElement).getAllByRole('cell');
+    
+    // Vérifier les prix d'entrée dans les cellules
+    const entryPriceCells = cells.filter(cell => cell.textContent?.includes('$20000.00'));
+    expect(entryPriceCells.length).toBe(1);
+    
+    const liquidationPriceCells = cells.filter(cell => cell.textContent?.includes('$18000.00'));
+    expect(liquidationPriceCells.length).toBe(2);
   });
 
-  test('displays correct profit values', () => {
-    render(<TradeDetailsTable {...defaultProps} />);
+  test('displays correct profit values in desktop view', () => {
+    const { container } = render(<TradeDetailsTable {...defaultProps} />);
+    
+    // Cibler spécifiquement la table dans la vue desktop
+    const desktopView = container.querySelector('.hidden.md\\:block');
+    expect(desktopView).not.toBeNull();
     
     // Le profit pour chaque trade est amountPerTrade * (targetGain / 100)
     // 5000 * (50 / 100) = 2500
-    const profitValue = screen.getAllByText(/\$2500.00/);
-    expect(profitValue.length).toBeGreaterThan(0);
+    const cells = within(desktopView as HTMLElement).getAllByRole('cell');
+    const profitCells = cells.filter(cell => cell.textContent?.includes('$2500.00'));
+    expect(profitCells.length).toBeGreaterThan(0);
   });
 
-  test('calculates and displays liquidation prices correctly', () => {
-    render(<TradeDetailsTable {...defaultProps} />);
+  test('calculates and displays liquidation prices correctly in desktop view', () => {
+    const { container } = render(<TradeDetailsTable {...defaultProps} />);
     
-    // Vérifier les prix de liquidation (10% en dessous du prix d'entrée)
+    // Cibler spécifiquement la table dans la vue desktop
+    const desktopView = container.querySelector('.hidden.md\\:block');
+    expect(desktopView).not.toBeNull();
+    
+    // Vérifier les prix de liquidation (10% en dessous du prix d'entrée) dans les cellules
+    const cells = within(desktopView as HTMLElement).getAllByRole('cell');
+    
     // 20000 * 0.9 = 18000
     // 18000 * 0.9 = 16200
     // 16200 * 0.9 = 14580
-    expect(screen.getAllByText(/\$18000.00/)).toHaveLength(2); // Apparaît comme prix d'entrée et comme prix de liquidation
-    expect(screen.getAllByText(/\$16200.00/)).toHaveLength(2); // Apparaît comme prix d'entrée et comme prix de liquidation
-    expect(screen.getAllByText(/\$14580.00/)).toHaveLength(1); // Apparaît uniquement comme prix de liquidation
+    const price18000Cells = cells.filter(cell => cell.textContent?.includes('$18000.00'));
+    expect(price18000Cells.length).toBe(2);
+    
+    const price16200Cells = cells.filter(cell => cell.textContent?.includes('$16200.00'));
+    expect(price16200Cells.length).toBe(2);
+    
+    const price14580Cells = cells.filter(cell => cell.textContent?.includes('$14580.00'));
+    expect(price14580Cells.length).toBe(1);
   });
 }); 

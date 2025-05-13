@@ -96,7 +96,8 @@ Le projet inclut une suite complète de tests unitaires et d'intégration pour g
 npm test
 
 # Exécuter les tests avec couverture
-npm test -- --coverage
+npm run test:coverage
+
 ```
 
 ## Développement

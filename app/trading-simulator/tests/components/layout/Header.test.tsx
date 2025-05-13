@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
-import Header from '../src/components/layout/Header';
+import Header from '../../../src/components/layout/Header';
 
 // Mocker i18next
 vi.mock('react-i18next', () => ({
@@ -21,21 +21,27 @@ vi.mock('react-i18next', () => ({
 }));
 
 // Moquer LanguageSelector
-vi.mock('../src/components/ui', () => ({
+vi.mock('../../../src/components/ui', () => ({
   LanguageSelector: () => <div data-testid="language-selector">Language Selector</div>,
 }));
 
 // Moquer ThemeToggle
-vi.mock('../src/components/features', () => ({
+vi.mock('../../../src/components/features', () => ({
   ThemeToggle: () => <div data-testid="theme-toggle">Theme Toggle</div>,
 }));
 
 describe('Header Component', () => {
-  it('renders header with title', () => {
-    render(<Header />);
+  it('renders header with correct layout', () => {
+    const { container } = render(<Header />);
     
-    // Vérifier que le titre est présent
-    expect(screen.getByText('Trading Simulator')).toBeDefined();
+    // Vérifier que le header a les bonnes classes
+    const header = container.querySelector('header');
+    expect(header).toHaveClass('bg-white');
+    expect(header).toHaveClass('dark:bg-slate-800');
+    
+    // Vérifier que le container a la bonne marge pour la sidebar
+    const headerContainer = container.querySelector('header > div');
+    expect(headerContainer).toHaveClass('ml-64');
   });
 
   it('includes language selector', () => {

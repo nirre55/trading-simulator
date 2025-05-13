@@ -6,13 +6,22 @@
     "simulate": "Simuler",
     "reset": "Réinitialiser",
     "lossRecovery": "Récupération des pertes",
-    "simulationComplete": "Simulation terminée avec succès !",
+    "simulationComplete": "Simulation terminée !",
     "withRecovery": "avec Récupération",
     "withoutRecovery": "sans Récupération"
   },
   "tabs": {
     "manual": "Points d'entrée manuels",
     "calculated": "Points d'entrée calculés"
+  },
+  "navigation": {
+    "manual": "Points d'entrée manuels",
+    "calculated": "Points d'entrée calculés",
+    "home": "Accueil"
+  },
+  "home": {
+    "manualDescription": "Définir manuellement les prix d'entrée pour votre stratégie",
+    "calculatedDescription": "Calculer les prix d'entrée selon les pourcentages de baisse"
   },
   "sections": {
     "commonParameters": "Paramètres communs",
@@ -65,10 +74,10 @@
     "tooManyPercentages": "Maximum 99 pourcentages."
   },
   "toasts": {
-    "insufficientPosition": "Saisie irréaliste : position totale < 100 $.",
-    "insufficientPerTrade": "Solde trop faible : minimum 100 $ requis par trade.",
-    "leverageZero": "Levier à 0 : simulation impossible.",
-    "durationZero": "Durée à 0 : frais de financement ignorés."
+    "insufficientPosition": "Solde insuffisant pour la taille de position !",
+    "insufficientPerTrade": "Solde insuffisant par transaction !",
+    "leverageZero": "L'effet de levier est à zéro !",
+    "durationZero": "La durée est à zéro !"
   },
   "buttons": {
     "addEntryPrice": "+ Ajouter Prix d'Entrée",
